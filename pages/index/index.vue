@@ -245,7 +245,7 @@
 	width: 48rpx;
 	height: 48rpx;
 	position: absolute;
-	top: calc(24rpx + var(--status-bar-height));
+	top: calc(60rpx + var(--status-bar-height));
 	left: 40rpx;
 	z-index: 2;
 }
@@ -255,7 +255,7 @@
 	font-weight: 500;
 	transform: translateX(-50%);
 	position: absolute;
-	top: calc(20rpx + var(--status-bar-height));
+	top: calc(60rpx + var(--status-bar-height));
 	left: 50%;
 	z-index: 2;
 }
