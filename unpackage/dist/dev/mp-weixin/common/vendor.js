@@ -1,6 +1,6 @@
-(global["webpackJsonp"] = global["webpackJsonp"] || []).push([["common/vendor"],[
-/* 0 */,
-/* 1 */
+(global["webpackJsonp"] = global["webpackJsonp"] || []).push([["common/vendor"],{
+
+/***/ 1:
 /*!************************************************************!*\
   !*** ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js ***!
   \************************************************************/
@@ -941,7 +941,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"联横利众数字云动态验证器","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_NAME":"联横利众数字云动态验证器","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -2049,7 +2049,382 @@ uni$1;exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../webpack/buildin/global.js */ 2)))
 
 /***/ }),
-/* 2 */
+
+/***/ 11:
+/*!**********************************************************************************************************!*\
+  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
+  \**********************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+function normalizeComponent (
+  scriptExports,
+  render,
+  staticRenderFns,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier, /* server only */
+  shadowMode, /* vue-cli only */
+  components, // fixed by xxxxxx auto components
+  renderjs // fixed by xxxxxx renderjs
+) {
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // fixed by xxxxxx auto components
+  if (components) {
+    if (!options.components) {
+      options.components = {}
+    }
+    var hasOwn = Object.prototype.hasOwnProperty
+    for (var name in components) {
+      if (hasOwn.call(components, name) && !hasOwn.call(options.components, name)) {
+        options.components[name] = components[name]
+      }
+    }
+  }
+  // fixed by xxxxxx renderjs
+  if (renderjs) {
+    (renderjs.beforeCreate || (renderjs.beforeCreate = [])).unshift(function() {
+      this[renderjs.__module] = this
+    });
+    (options.mixins || (options.mixins = [])).push(renderjs)
+  }
+
+  // render functions
+  if (render) {
+    options.render = render
+    options.staticRenderFns = staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = 'data-v-' + scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = shadowMode
+      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      : injectStyles
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      var originalRender = options.render
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return originalRender(h, context)
+      }
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    }
+  }
+
+  return {
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+
+/***/ 18:
+/*!**************************************!*\
+  !*** ./node_modules/qs/lib/index.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var stringify = __webpack_require__(/*! ./stringify */ 19);
+var parse = __webpack_require__(/*! ./parse */ 22);
+var formats = __webpack_require__(/*! ./formats */ 21);
+
+module.exports = {
+    formats: formats,
+    parse: parse,
+    stringify: stringify
+};
+
+
+/***/ }),
+
+/***/ 19:
+/*!******************************************!*\
+  !*** ./node_modules/qs/lib/stringify.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(/*! ./utils */ 20);
+var formats = __webpack_require__(/*! ./formats */ 21);
+
+var arrayPrefixGenerators = {
+    brackets: function brackets(prefix) { // eslint-disable-line func-name-matching
+        return prefix + '[]';
+    },
+    indices: function indices(prefix, key) { // eslint-disable-line func-name-matching
+        return prefix + '[' + key + ']';
+    },
+    repeat: function repeat(prefix) { // eslint-disable-line func-name-matching
+        return prefix;
+    }
+};
+
+var toISO = Date.prototype.toISOString;
+
+var defaults = {
+    delimiter: '&',
+    encode: true,
+    encoder: utils.encode,
+    encodeValuesOnly: false,
+    serializeDate: function serializeDate(date) { // eslint-disable-line func-name-matching
+        return toISO.call(date);
+    },
+    skipNulls: false,
+    strictNullHandling: false
+};
+
+var stringify = function stringify( // eslint-disable-line func-name-matching
+    object,
+    prefix,
+    generateArrayPrefix,
+    strictNullHandling,
+    skipNulls,
+    encoder,
+    filter,
+    sort,
+    allowDots,
+    serializeDate,
+    formatter,
+    encodeValuesOnly
+) {
+    var obj = object;
+    if (typeof filter === 'function') {
+        obj = filter(prefix, obj);
+    } else if (obj instanceof Date) {
+        obj = serializeDate(obj);
+    } else if (obj === null) {
+        if (strictNullHandling) {
+            return encoder && !encodeValuesOnly ? encoder(prefix, defaults.encoder) : prefix;
+        }
+
+        obj = '';
+    }
+
+    if (typeof obj === 'string' || typeof obj === 'number' || typeof obj === 'boolean' || utils.isBuffer(obj)) {
+        if (encoder) {
+            var keyValue = encodeValuesOnly ? prefix : encoder(prefix, defaults.encoder);
+            return [formatter(keyValue) + '=' + formatter(encoder(obj, defaults.encoder))];
+        }
+        return [formatter(prefix) + '=' + formatter(String(obj))];
+    }
+
+    var values = [];
+
+    if (typeof obj === 'undefined') {
+        return values;
+    }
+
+    var objKeys;
+    if (Array.isArray(filter)) {
+        objKeys = filter;
+    } else {
+        var keys = Object.keys(obj);
+        objKeys = sort ? keys.sort(sort) : keys;
+    }
+
+    for (var i = 0; i < objKeys.length; ++i) {
+        var key = objKeys[i];
+
+        if (skipNulls && obj[key] === null) {
+            continue;
+        }
+
+        if (Array.isArray(obj)) {
+            values = values.concat(stringify(
+                obj[key],
+                generateArrayPrefix(prefix, key),
+                generateArrayPrefix,
+                strictNullHandling,
+                skipNulls,
+                encoder,
+                filter,
+                sort,
+                allowDots,
+                serializeDate,
+                formatter,
+                encodeValuesOnly
+            ));
+        } else {
+            values = values.concat(stringify(
+                obj[key],
+                prefix + (allowDots ? '.' + key : '[' + key + ']'),
+                generateArrayPrefix,
+                strictNullHandling,
+                skipNulls,
+                encoder,
+                filter,
+                sort,
+                allowDots,
+                serializeDate,
+                formatter,
+                encodeValuesOnly
+            ));
+        }
+    }
+
+    return values;
+};
+
+module.exports = function (object, opts) {
+    var obj = object;
+    var options = opts ? utils.assign({}, opts) : {};
+
+    if (options.encoder !== null && options.encoder !== undefined && typeof options.encoder !== 'function') {
+        throw new TypeError('Encoder has to be a function.');
+    }
+
+    var delimiter = typeof options.delimiter === 'undefined' ? defaults.delimiter : options.delimiter;
+    var strictNullHandling = typeof options.strictNullHandling === 'boolean' ? options.strictNullHandling : defaults.strictNullHandling;
+    var skipNulls = typeof options.skipNulls === 'boolean' ? options.skipNulls : defaults.skipNulls;
+    var encode = typeof options.encode === 'boolean' ? options.encode : defaults.encode;
+    var encoder = typeof options.encoder === 'function' ? options.encoder : defaults.encoder;
+    var sort = typeof options.sort === 'function' ? options.sort : null;
+    var allowDots = typeof options.allowDots === 'undefined' ? false : options.allowDots;
+    var serializeDate = typeof options.serializeDate === 'function' ? options.serializeDate : defaults.serializeDate;
+    var encodeValuesOnly = typeof options.encodeValuesOnly === 'boolean' ? options.encodeValuesOnly : defaults.encodeValuesOnly;
+    if (typeof options.format === 'undefined') {
+        options.format = formats['default'];
+    } else if (!Object.prototype.hasOwnProperty.call(formats.formatters, options.format)) {
+        throw new TypeError('Unknown format option provided.');
+    }
+    var formatter = formats.formatters[options.format];
+    var objKeys;
+    var filter;
+
+    if (typeof options.filter === 'function') {
+        filter = options.filter;
+        obj = filter('', obj);
+    } else if (Array.isArray(options.filter)) {
+        filter = options.filter;
+        objKeys = filter;
+    }
+
+    var keys = [];
+
+    if (typeof obj !== 'object' || obj === null) {
+        return '';
+    }
+
+    var arrayFormat;
+    if (options.arrayFormat in arrayPrefixGenerators) {
+        arrayFormat = options.arrayFormat;
+    } else if ('indices' in options) {
+        arrayFormat = options.indices ? 'indices' : 'repeat';
+    } else {
+        arrayFormat = 'indices';
+    }
+
+    var generateArrayPrefix = arrayPrefixGenerators[arrayFormat];
+
+    if (!objKeys) {
+        objKeys = Object.keys(obj);
+    }
+
+    if (sort) {
+        objKeys.sort(sort);
+    }
+
+    for (var i = 0; i < objKeys.length; ++i) {
+        var key = objKeys[i];
+
+        if (skipNulls && obj[key] === null) {
+            continue;
+        }
+
+        keys = keys.concat(stringify(
+            obj[key],
+            key,
+            generateArrayPrefix,
+            strictNullHandling,
+            skipNulls,
+            encode ? encoder : null,
+            filter,
+            sort,
+            allowDots,
+            serializeDate,
+            formatter,
+            encodeValuesOnly
+        ));
+    }
+
+    var joined = keys.join(delimiter);
+    var prefix = options.addQueryPrefix === true ? '?' : '';
+
+    return joined.length > 0 ? prefix + joined : '';
+};
+
+
+/***/ }),
+
+/***/ 2:
 /*!***********************************!*\
   !*** (webpack)/buildin/global.js ***!
   \***********************************/
@@ -2079,7 +2454,1432 @@ module.exports = g;
 
 
 /***/ }),
-/* 3 */
+
+/***/ 20:
+/*!**************************************!*\
+  !*** ./node_modules/qs/lib/utils.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var has = Object.prototype.hasOwnProperty;
+
+var hexTable = (function () {
+    var array = [];
+    for (var i = 0; i < 256; ++i) {
+        array.push('%' + ((i < 16 ? '0' : '') + i.toString(16)).toUpperCase());
+    }
+
+    return array;
+}());
+
+var compactQueue = function compactQueue(queue) {
+    var obj;
+
+    while (queue.length) {
+        var item = queue.pop();
+        obj = item.obj[item.prop];
+
+        if (Array.isArray(obj)) {
+            var compacted = [];
+
+            for (var j = 0; j < obj.length; ++j) {
+                if (typeof obj[j] !== 'undefined') {
+                    compacted.push(obj[j]);
+                }
+            }
+
+            item.obj[item.prop] = compacted;
+        }
+    }
+
+    return obj;
+};
+
+var arrayToObject = function arrayToObject(source, options) {
+    var obj = options && options.plainObjects ? Object.create(null) : {};
+    for (var i = 0; i < source.length; ++i) {
+        if (typeof source[i] !== 'undefined') {
+            obj[i] = source[i];
+        }
+    }
+
+    return obj;
+};
+
+var merge = function merge(target, source, options) {
+    if (!source) {
+        return target;
+    }
+
+    if (typeof source !== 'object') {
+        if (Array.isArray(target)) {
+            target.push(source);
+        } else if (typeof target === 'object') {
+            if (options.plainObjects || options.allowPrototypes || !has.call(Object.prototype, source)) {
+                target[source] = true;
+            }
+        } else {
+            return [target, source];
+        }
+
+        return target;
+    }
+
+    if (typeof target !== 'object') {
+        return [target].concat(source);
+    }
+
+    var mergeTarget = target;
+    if (Array.isArray(target) && !Array.isArray(source)) {
+        mergeTarget = arrayToObject(target, options);
+    }
+
+    if (Array.isArray(target) && Array.isArray(source)) {
+        source.forEach(function (item, i) {
+            if (has.call(target, i)) {
+                if (target[i] && typeof target[i] === 'object') {
+                    target[i] = merge(target[i], item, options);
+                } else {
+                    target.push(item);
+                }
+            } else {
+                target[i] = item;
+            }
+        });
+        return target;
+    }
+
+    return Object.keys(source).reduce(function (acc, key) {
+        var value = source[key];
+
+        if (has.call(acc, key)) {
+            acc[key] = merge(acc[key], value, options);
+        } else {
+            acc[key] = value;
+        }
+        return acc;
+    }, mergeTarget);
+};
+
+var assign = function assignSingleSource(target, source) {
+    return Object.keys(source).reduce(function (acc, key) {
+        acc[key] = source[key];
+        return acc;
+    }, target);
+};
+
+var decode = function (str) {
+    try {
+        return decodeURIComponent(str.replace(/\+/g, ' '));
+    } catch (e) {
+        return str;
+    }
+};
+
+var encode = function encode(str) {
+    // This code was originally written by Brian White (mscdex) for the io.js core querystring library.
+    // It has been adapted here for stricter adherence to RFC 3986
+    if (str.length === 0) {
+        return str;
+    }
+
+    var string = typeof str === 'string' ? str : String(str);
+
+    var out = '';
+    for (var i = 0; i < string.length; ++i) {
+        var c = string.charCodeAt(i);
+
+        if (
+            c === 0x2D // -
+            || c === 0x2E // .
+            || c === 0x5F // _
+            || c === 0x7E // ~
+            || (c >= 0x30 && c <= 0x39) // 0-9
+            || (c >= 0x41 && c <= 0x5A) // a-z
+            || (c >= 0x61 && c <= 0x7A) // A-Z
+        ) {
+            out += string.charAt(i);
+            continue;
+        }
+
+        if (c < 0x80) {
+            out = out + hexTable[c];
+            continue;
+        }
+
+        if (c < 0x800) {
+            out = out + (hexTable[0xC0 | (c >> 6)] + hexTable[0x80 | (c & 0x3F)]);
+            continue;
+        }
+
+        if (c < 0xD800 || c >= 0xE000) {
+            out = out + (hexTable[0xE0 | (c >> 12)] + hexTable[0x80 | ((c >> 6) & 0x3F)] + hexTable[0x80 | (c & 0x3F)]);
+            continue;
+        }
+
+        i += 1;
+        c = 0x10000 + (((c & 0x3FF) << 10) | (string.charCodeAt(i) & 0x3FF));
+        out += hexTable[0xF0 | (c >> 18)]
+            + hexTable[0x80 | ((c >> 12) & 0x3F)]
+            + hexTable[0x80 | ((c >> 6) & 0x3F)]
+            + hexTable[0x80 | (c & 0x3F)];
+    }
+
+    return out;
+};
+
+var compact = function compact(value) {
+    var queue = [{ obj: { o: value }, prop: 'o' }];
+    var refs = [];
+
+    for (var i = 0; i < queue.length; ++i) {
+        var item = queue[i];
+        var obj = item.obj[item.prop];
+
+        var keys = Object.keys(obj);
+        for (var j = 0; j < keys.length; ++j) {
+            var key = keys[j];
+            var val = obj[key];
+            if (typeof val === 'object' && val !== null && refs.indexOf(val) === -1) {
+                queue.push({ obj: obj, prop: key });
+                refs.push(val);
+            }
+        }
+    }
+
+    return compactQueue(queue);
+};
+
+var isRegExp = function isRegExp(obj) {
+    return Object.prototype.toString.call(obj) === '[object RegExp]';
+};
+
+var isBuffer = function isBuffer(obj) {
+    if (obj === null || typeof obj === 'undefined') {
+        return false;
+    }
+
+    return !!(obj.constructor && obj.constructor.isBuffer && obj.constructor.isBuffer(obj));
+};
+
+module.exports = {
+    arrayToObject: arrayToObject,
+    assign: assign,
+    compact: compact,
+    decode: decode,
+    encode: encode,
+    isBuffer: isBuffer,
+    isRegExp: isRegExp,
+    merge: merge
+};
+
+
+/***/ }),
+
+/***/ 21:
+/*!****************************************!*\
+  !*** ./node_modules/qs/lib/formats.js ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var replace = String.prototype.replace;
+var percentTwenties = /%20/g;
+
+module.exports = {
+    'default': 'RFC3986',
+    formatters: {
+        RFC1738: function (value) {
+            return replace.call(value, percentTwenties, '+');
+        },
+        RFC3986: function (value) {
+            return value;
+        }
+    },
+    RFC1738: 'RFC1738',
+    RFC3986: 'RFC3986'
+};
+
+
+/***/ }),
+
+/***/ 22:
+/*!**************************************!*\
+  !*** ./node_modules/qs/lib/parse.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(/*! ./utils */ 20);
+
+var has = Object.prototype.hasOwnProperty;
+
+var defaults = {
+    allowDots: false,
+    allowPrototypes: false,
+    arrayLimit: 20,
+    decoder: utils.decode,
+    delimiter: '&',
+    depth: 5,
+    parameterLimit: 1000,
+    plainObjects: false,
+    strictNullHandling: false
+};
+
+var parseValues = function parseQueryStringValues(str, options) {
+    var obj = {};
+    var cleanStr = options.ignoreQueryPrefix ? str.replace(/^\?/, '') : str;
+    var limit = options.parameterLimit === Infinity ? undefined : options.parameterLimit;
+    var parts = cleanStr.split(options.delimiter, limit);
+
+    for (var i = 0; i < parts.length; ++i) {
+        var part = parts[i];
+
+        var bracketEqualsPos = part.indexOf(']=');
+        var pos = bracketEqualsPos === -1 ? part.indexOf('=') : bracketEqualsPos + 1;
+
+        var key, val;
+        if (pos === -1) {
+            key = options.decoder(part, defaults.decoder);
+            val = options.strictNullHandling ? null : '';
+        } else {
+            key = options.decoder(part.slice(0, pos), defaults.decoder);
+            val = options.decoder(part.slice(pos + 1), defaults.decoder);
+        }
+        if (has.call(obj, key)) {
+            obj[key] = [].concat(obj[key]).concat(val);
+        } else {
+            obj[key] = val;
+        }
+    }
+
+    return obj;
+};
+
+var parseObject = function (chain, val, options) {
+    var leaf = val;
+
+    for (var i = chain.length - 1; i >= 0; --i) {
+        var obj;
+        var root = chain[i];
+
+        if (root === '[]') {
+            obj = [];
+            obj = obj.concat(leaf);
+        } else {
+            obj = options.plainObjects ? Object.create(null) : {};
+            var cleanRoot = root.charAt(0) === '[' && root.charAt(root.length - 1) === ']' ? root.slice(1, -1) : root;
+            var index = parseInt(cleanRoot, 10);
+            if (
+                !isNaN(index)
+                && root !== cleanRoot
+                && String(index) === cleanRoot
+                && index >= 0
+                && (options.parseArrays && index <= options.arrayLimit)
+            ) {
+                obj = [];
+                obj[index] = leaf;
+            } else {
+                obj[cleanRoot] = leaf;
+            }
+        }
+
+        leaf = obj;
+    }
+
+    return leaf;
+};
+
+var parseKeys = function parseQueryStringKeys(givenKey, val, options) {
+    if (!givenKey) {
+        return;
+    }
+
+    // Transform dot notation to bracket notation
+    var key = options.allowDots ? givenKey.replace(/\.([^.[]+)/g, '[$1]') : givenKey;
+
+    // The regex chunks
+
+    var brackets = /(\[[^[\]]*])/;
+    var child = /(\[[^[\]]*])/g;
+
+    // Get the parent
+
+    var segment = brackets.exec(key);
+    var parent = segment ? key.slice(0, segment.index) : key;
+
+    // Stash the parent if it exists
+
+    var keys = [];
+    if (parent) {
+        // If we aren't using plain objects, optionally prefix keys
+        // that would overwrite object prototype properties
+        if (!options.plainObjects && has.call(Object.prototype, parent)) {
+            if (!options.allowPrototypes) {
+                return;
+            }
+        }
+
+        keys.push(parent);
+    }
+
+    // Loop through children appending to the array until we hit depth
+
+    var i = 0;
+    while ((segment = child.exec(key)) !== null && i < options.depth) {
+        i += 1;
+        if (!options.plainObjects && has.call(Object.prototype, segment[1].slice(1, -1))) {
+            if (!options.allowPrototypes) {
+                return;
+            }
+        }
+        keys.push(segment[1]);
+    }
+
+    // If there's a remainder, just add whatever is left
+
+    if (segment) {
+        keys.push('[' + key.slice(segment.index) + ']');
+    }
+
+    return parseObject(keys, val, options);
+};
+
+module.exports = function (str, opts) {
+    var options = opts ? utils.assign({}, opts) : {};
+
+    if (options.decoder !== null && options.decoder !== undefined && typeof options.decoder !== 'function') {
+        throw new TypeError('Decoder has to be a function.');
+    }
+
+    options.ignoreQueryPrefix = options.ignoreQueryPrefix === true;
+    options.delimiter = typeof options.delimiter === 'string' || utils.isRegExp(options.delimiter) ? options.delimiter : defaults.delimiter;
+    options.depth = typeof options.depth === 'number' ? options.depth : defaults.depth;
+    options.arrayLimit = typeof options.arrayLimit === 'number' ? options.arrayLimit : defaults.arrayLimit;
+    options.parseArrays = options.parseArrays !== false;
+    options.decoder = typeof options.decoder === 'function' ? options.decoder : defaults.decoder;
+    options.allowDots = typeof options.allowDots === 'boolean' ? options.allowDots : defaults.allowDots;
+    options.plainObjects = typeof options.plainObjects === 'boolean' ? options.plainObjects : defaults.plainObjects;
+    options.allowPrototypes = typeof options.allowPrototypes === 'boolean' ? options.allowPrototypes : defaults.allowPrototypes;
+    options.parameterLimit = typeof options.parameterLimit === 'number' ? options.parameterLimit : defaults.parameterLimit;
+    options.strictNullHandling = typeof options.strictNullHandling === 'boolean' ? options.strictNullHandling : defaults.strictNullHandling;
+
+    if (str === '' || str === null || typeof str === 'undefined') {
+        return options.plainObjects ? Object.create(null) : {};
+    }
+
+    var tempObj = typeof str === 'string' ? parseValues(str, options) : str;
+    var obj = options.plainObjects ? Object.create(null) : {};
+
+    // Iterate over the keys and setup the new object
+
+    var keys = Object.keys(tempObj);
+    for (var i = 0; i < keys.length; ++i) {
+        var key = keys[i];
+        var newObj = parseKeys(key, tempObj[key], options);
+        obj = utils.merge(obj, newObj, options);
+    }
+
+    return utils.compact(obj);
+};
+
+
+/***/ }),
+
+/***/ 23:
+/*!****************************************************!*\
+  !*** D:/联合利众/动态验证/node_modules/jsotp/lib/jsotp.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+exports.Util = exports.Base32 = exports.TOTP = exports.HOTP = undefined;
+
+var _totp = __webpack_require__(/*! ./totp */ 24);
+
+var _hotp = __webpack_require__(/*! ./hotp */ 30);
+
+var _base = __webpack_require__(/*! ./base32 */ 26);
+
+var _util = __webpack_require__(/*! ./util */ 28);
+
+/* ＊
+                                * Generate and return HOTP object
+                                *
+                                * @param {secret}
+                                * @type {String}
+                                * @desc random base32-encoded key to generate OTP.
+                                *
+                                * @return {OTP}
+                                */
+/*
+                                    *  @project  : jsotp
+                                    *  @author   : Gin (gin.lance.inside@hotmail.com)
+                                    *  @link     : https://github.com/LanceGin/jsotp
+                                    *  @Disc     : a node module to generate and verify one-time passwords
+                                    */
+
+function hotp_gen(secret) {
+  var digits = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 6;
+  var digest = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'SHA-1';
+
+  var hotp = new _hotp.HOTP(secret, digits, digest);
+  return hotp;
+}
+
+/* ＊
+   * Generate and return TOTP object
+   *
+   * @param {secret}
+   * @type {String}
+   * @desc random base32-encoded key to generate OTP.
+   *
+   * @param {interval}
+   * @type {int}
+   * @desc the time interval in seconds for OTP.
+   * This defaults to 30.
+   *
+   * @return {OTP}
+   */
+function totp_gen(secret) {
+  var interval = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 30;
+
+  var totp = new _totp.TOTP(secret, interval);
+  return totp;
+}
+
+exports.HOTP = hotp_gen;
+exports.TOTP = totp_gen;
+exports.Base32 = _base.Base32;
+exports.Util = _util.Util;
+
+/***/ }),
+
+/***/ 24:
+/*!***************************************************!*\
+  !*** D:/联合利众/动态验证/node_modules/jsotp/lib/totp.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+exports.TOTP = undefined;
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _get = function get(object, property, receiver) {if (object === null) object = Function.prototype;var desc = Object.getOwnPropertyDescriptor(object, property);if (desc === undefined) {var parent = Object.getPrototypeOf(object);if (parent === null) {return undefined;} else {return get(parent, property, receiver);}} else if ("value" in desc) {return desc.value;} else {var getter = desc.get;if (getter === undefined) {return undefined;}return getter.call(receiver);}};
+
+var _otp = __webpack_require__(/*! ./otp */ 25);
+
+var _util = __webpack_require__(/*! ./util */ 28);
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          *  @module   : TOTP module to generate and verify TOTP password
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          *  @author   : Gin (gin.lance.inside@hotmail.com)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          */
+
+var TOTP = exports.TOTP = function (_OTP) {
+  _inherits(TOTP, _OTP);
+
+  /* ＊
+                            * @param {secret}
+                            * @type {String}
+                            * @desc random base32-encoded key to generate OTP.
+                            *
+                            * @param {interval}
+                            * @type {int}
+                            * @desc the time interval in seconds for OTP.
+                            * This defaults to 30.
+                            *
+                            * @return {OTP}
+                            */
+  function TOTP(secret) {
+    var interval = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 30;
+
+    _classCallCheck(this, TOTP);
+
+    var _this = _possibleConstructorReturn(this, (TOTP.__proto__ || Object.getPrototypeOf(TOTP)).call(this, secret));
+
+    _this.interval = interval;
+    return _this;
+  }
+
+  /* ＊
+       * Generate the OTP with current time.
+       *
+       * @return {OTP}
+       *
+       * @example
+       * ```javascript
+       * let totp = jsotp.TOTP('BASE32ENCODEDSECRET');
+       * totp.now(); // => 432143
+       * ```
+       */
+
+
+  _createClass(TOTP, [{
+    key: 'now',
+    value: function now() {
+      // get now time string
+      var now = _util.Util.timecode(new Date(), this.interval);
+
+      // generate the one-time password
+      var digit = _get(TOTP.prototype.__proto__ || Object.getPrototypeOf(TOTP.prototype), 'generate_otp', this).call(this, now);
+      return digit;
+    }
+
+    /* ＊
+         * Verifies the OTP passed in against the current time OTP.
+         *
+         * @param {otp}
+         * @type {String}
+         * @desc the OTP waiting for checking
+         *
+         * @param {time}
+         * @type {int or datetime}
+         * @desc Time to check OTP at (defaults to now)
+         *
+         * @return {Boolean}
+         *
+         * @example
+         * ```javascript
+         * let totp = jsotp.TOTP('BASE32ENCODEDSECRET');
+         * totp.now(); // => 432143
+         * // Verify for current time
+         * totp.verify(432143); // => true
+         * // Verify after 30s
+         * totp.verify(432143); // => false
+         * ```
+         */ },
+
+  {
+    key: 'verify',
+    value: function verify(otp) {
+      var time = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+      var otp_time = void 0;
+
+      if (time == null) {
+        time = new Date();
+      }
+      otp_time = _get(TOTP.prototype.__proto__ || Object.getPrototypeOf(TOTP.prototype), 'generate_otp', this).call(this, _util.Util.timecode(time, this.interval));
+
+      if (typeof otp === 'number') {
+        otp = otp.toString();
+      }
+
+      if (otp === otp_time) {
+        return true;
+      }
+      return false;
+    }
+
+    /* ＊
+         * Generate a url with TOTP instance.
+         *
+         * @param {issuer}
+         * @type {String}
+         * @desc maybe it is the Service name
+         *
+         * @return {String}
+         */ },
+
+  {
+    key: 'url_gen',
+    value: function url_gen() {
+      var issuer = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+      return _get(TOTP.prototype.__proto__ || Object.getPrototypeOf(TOTP.prototype), 'url_gen', this).call(this, issuer, 'totp');
+    } }]);
+
+
+  return TOTP;
+}(_otp.OTP);
+
+/***/ }),
+
+/***/ 245:
+/*!**************************************************************!*\
+  !*** D:/联合利众/动态验证/components/uni-swipe-action-item/mpwxs.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = {
+  data: function data() {
+    return {
+      position: [],
+      button: {},
+      btn: "[]" };
+
+  },
+  // computed: {
+  // 	pos() {
+  // 		return JSON.stringify(this.position)
+  // 	},
+  // 	btn() {
+  // 		return JSON.stringify(this.button)
+  // 	}
+  // },
+  watch: {
+    button: {
+      handler: function handler(newVal) {
+        this.btn = JSON.stringify(newVal);
+      },
+      deep: true },
+
+    show: function show(newVal) {
+      if (this.autoClose) return;
+      if (!this.button) {
+        this.init();
+        return;
+      }
+      this.button.show = newVal;
+    },
+    leftOptions: function leftOptions() {
+      this.init();
+    },
+    rightOptions: function rightOptions() {
+      this.init();
+    } },
+
+  created: function created() {
+    if (this.swipeaction.children !== undefined) {
+      this.swipeaction.children.push(this);
+    }
+  },
+  mounted: function mounted() {
+    this.init();
+  },
+  beforeDestroy: function beforeDestroy() {var _this = this;
+    this.swipeaction.children.forEach(function (item, index) {
+      if (item === _this) {
+        _this.swipeaction.children.splice(index, 1);
+      }
+    });
+  },
+  methods: {
+    init: function init() {var _this2 = this;
+      clearTimeout(this.swipetimer);
+      this.swipetimer = setTimeout(function () {
+        _this2.getButtonSize();
+      }, 50);
+    },
+    closeSwipe: function closeSwipe(e) {
+      if (!this.autoClose) return;
+      this.swipeaction.closeOther(this);
+    },
+
+    change: function change(e) {
+      this.$emit('change', e.open);
+      var show = this.button.show;
+      if (show !== e.open) {
+        this.button.show = e.open;
+      }
+
+    },
+
+    appTouchStart: function appTouchStart(e) {var
+
+      clientX =
+      e.changedTouches[0].clientX;
+      this.clientX = clientX;
+      this.timestamp = new Date().getTime();
+    },
+    appTouchEnd: function appTouchEnd(e, index, item, position) {var
+
+      clientX =
+      e.changedTouches[0].clientX;
+      // fixed by xxxx 模拟点击事件，解决 ios 13 点击区域错位的问题
+      var diff = Math.abs(this.clientX - clientX);
+      var time = new Date().getTime() - this.timestamp;
+      if (diff < 40 && time < 300) {
+        this.$emit('click', {
+          content: item,
+          index: index,
+          position: position });
+
+      }
+    },
+    getButtonSize: function getButtonSize() {var _this3 = this;
+      var views = uni.createSelectorQuery().in(this);
+      views.
+      selectAll('.uni-swipe_button-group').
+      boundingClientRect(function (data) {
+        var show = 'none';
+        if (_this3.autoClose) {
+          show = 'none';
+        } else {
+          show = _this3.show;
+        }
+        _this3.button = {
+          data: data,
+          show: show };
+
+      }).
+      exec();
+    } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 25:
+/*!**************************************************!*\
+  !*** D:/联合利众/动态验证/node_modules/jsotp/lib/otp.js ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+exports.OTP = undefined;
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _base = __webpack_require__(/*! ./base32 */ 26);
+
+var _util = __webpack_require__(/*! ./util */ 28);
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+/*
+                                                                                                                                                       *  @module   : OTP module to generate the password
+                                                                                                                                                       *  @author   : Gin (gin.lance.inside@hotmail.com)
+                                                                                                                                                       */
+var jsSHA = __webpack_require__(/*! jssha */ 29);
+
+var OTP = exports.OTP = function () {
+  /* ＊
+                                        * This constructor will create OTP instance.
+                                        *
+                                        * @param {secret}
+                                        * @type {String}
+                                        * @desc random base32-encoded key, it is the
+                                        * key that be used to verify.
+                                        *
+                                        * @param {digits}
+                                        * @type {int}
+                                        * @desc the length of the one-time password, default to be 6
+                                        *
+                                        * @param {digest}
+                                        * @type {String}
+                                        * @desc the key that be used to do HMAC encoding, dedault and
+                                        * only to be "sha1"
+                                        *
+                                        */
+  function OTP(secret) {
+    var digits = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 6;
+    var digest = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'SHA-1';
+
+    _classCallCheck(this, OTP);
+
+    this.secret = secret;
+    this.digits = digits;
+    this.digest = digest;
+  }
+
+  /* ＊
+       * When class HOTP or TOTP pass the input params to this
+       * function, it will generate the OTP object with params,
+       * the params may be counter or time.
+       *
+       * @param {input}
+       * @type {int}
+       * @desc input params to generate OTP object, maybe
+       * counter or time.
+       *
+       * @return {OTP}
+       */
+
+
+  _createClass(OTP, [{
+    key: 'generate_otp',
+    value: function generate_otp(input) {
+      // generate HMAC object with SHA-1 digest
+      var hmacObj = new jsSHA(this.digest, 'BYTES');
+      // set hmac token
+      hmacObj.setHMACKey(_util.Util.byte_secret(this.secret), 'BYTES');
+      // hamc encode the input param
+      hmacObj.update(_util.Util.int_to_bytestring(input));
+
+      // get HMAC ans
+      var hmac = hmacObj.getHMAC('BYTES');
+
+      // transfer hmac to Array
+      var hmac_a = hmac.split('');
+
+      // calculate the init offset
+      var offset = hmac_a[hmac_a.length - 1].charCodeAt() & 0xf;
+
+      // calculate the code
+      var code = (hmac_a[offset].charCodeAt() & 0x7f) << 24 | (hmac_a[offset + 1].charCodeAt() & 0xff) << 16 | (hmac_a[offset + 2].charCodeAt() & 0xff) << 8 | hmac_a[offset + 3].charCodeAt() & 0xff;
+
+      // get the init str code
+      var str_code = (code % Math.pow(10, this.digits)).toString();
+
+      // rjust format
+      str_code = _util.Util.rjust(str_code, this.digits);
+
+      return str_code;
+    }
+
+    /* ＊
+         * Generate a url with TOTP or HOTP instance.
+         *
+         * @param {issuer}
+         * @type {String}
+         * @desc maybe it is the Service name
+         *
+         * @param {type}
+         * @type {String}
+         * @desc type of OTP instance
+         *
+         * @return {String}
+         */ },
+
+  {
+    key: 'url_gen',
+    value: function url_gen(issuer, type) {
+      return 'otpauth://' + type + '/SK?secret=' + this.secret + '&issuer=' + issuer;
+    } }]);
+
+
+  return OTP;
+}();
+
+/***/ }),
+
+/***/ 26:
+/*!*****************************************************!*\
+  !*** D:/联合利众/动态验证/node_modules/jsotp/lib/base32.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+/*
+                                                                                                                                                       *  @module   : BASE32 module to generate the random b32 key
+                                                                                                                                                       *              and decode the secret.
+                                                                                                                                                       *  @author   : Gin (gin.lance.inside@hotmail.com)
+                                                                                                                                                       */
+
+var nibbler = __webpack_require__(/*! ./nibbler/nibbler */ 27);
+
+var Base32 = exports.Base32 = function () {
+  function Base32() {
+    _classCallCheck(this, Base32);
+  }
+
+  _createClass(Base32, null, [{
+    key: 'decode',
+
+    /* ＊
+                      * Base32 decode function
+                      *
+                      * @param {secret}
+                      * @type {String}
+                      * @desc input string
+                      *
+                      * @return {String}
+                      */
+    value: function decode(secret) {
+      return nibbler.b32decode(secret);
+    }
+
+    /* ＊
+         * Base32 generate random b32 encoded string function
+         *
+         * @param {length}
+         * @type {int}
+         * @desc the length of random b32 encoded string
+         *
+         * @return {String}
+         */ },
+
+  {
+    key: 'random_gen',
+    value: function random_gen() {
+      var length = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 16;
+
+      var random_str = Math.random().toString(36);
+      random_str = nibbler.b32encode(random_str);
+
+      return random_str.substring(0, length);
+    } }]);
+
+
+  return Base32;
+}();
+
+/***/ }),
+
+/***/ 27:
+/*!**************************************************************!*\
+  !*** D:/联合利众/动态验证/node_modules/jsotp/lib/nibbler/nibbler.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/*
+              Adapted for Node.js by Matt Robenolt
+              Reference: http://www.tumuski.com/2010/04/nibbler/
+              */
+
+var Nibbler = function Nibbler(options) {
+  var construct = void 0,
+
+
+  // options
+  pad = void 0,
+  dataBits = void 0,
+  codeBits = void 0,
+  keyString = void 0,
+  arrayData = void 0,
+
+
+  // private instance variables
+  mask = void 0,
+  group = void 0,
+  max = void 0,
+
+
+  // private methods
+  gcd = void 0,
+  translate = void 0,
+
+
+  // public methods
+  encode = void 0,
+  decode = void 0;
+
+  // pseudo-constructor
+  construct = function construct() {
+    var i = void 0,
+    mag = void 0,
+    prev = void 0;
+
+    // options
+    pad = options.pad || '';
+    dataBits = options.dataBits;
+    codeBits = options.codeBits;
+    keyString = options.keyString;
+    arrayData = options.arrayData;
+
+    // bitmasks
+    mag = Math.max(dataBits, codeBits);
+    prev = 0;
+    mask = [];
+    for (i = 0; i < mag; i += 1) {
+      mask.push(prev);
+      prev += prev + 1;
+    }
+    max = prev;
+
+    // ouput code characters in multiples of this number
+    group = dataBits / gcd(dataBits, codeBits);
+  };
+
+  // greatest common divisor
+  gcd = function gcd(a, b) {
+    var t = void 0;
+    while (b !== 0) {
+      t = b;
+      b = a % b;
+      a = t;
+    }
+    return a;
+  };
+
+  // the re-coder
+  translate = function translate(input, bitsIn, bitsOut, decoding) {
+    var i = void 0,
+    len = void 0,
+    chr = void 0,
+    byteIn = void 0,
+    buffer = void 0,
+    size = void 0,
+    output = void 0,
+    write = void 0;
+
+    // append a byte to the output
+    write = function write(n) {
+      if (!decoding) {
+        output.push(keyString.charAt(n));
+      } else if (arrayData) {
+        output.push(n);
+      } else {
+        output.push(String.fromCharCode(n));
+      }
+    };
+
+    buffer = 0;
+    size = 0;
+    output = [];
+
+    len = input.length;
+    for (i = 0; i < len; i += 1) {
+      // the new size the buffer will be after adding these bits
+      size += bitsIn;
+
+      // read a character
+      if (decoding) {
+        // decode it
+        chr = input.charAt(i);
+        byteIn = keyString.indexOf(chr);
+        if (chr === pad) {
+          break;
+        } else if (byteIn < 0) {
+          throw 'the character "' + chr + '" is not a member of ' + keyString;
+        }
+      } else {
+        if (arrayData) {
+          byteIn = input[i];
+        } else {
+          byteIn = input.charCodeAt(i);
+        }
+        if ((byteIn | max) !== max) {
+          throw byteIn + ' is outside the range 0-' + max;
+        }
+      }
+
+      // shift the buffer to the left and add the new bits
+      buffer = buffer << bitsIn | byteIn;
+
+      // as long as there's enough in the buffer for another output...
+      while (size >= bitsOut) {
+        // the new size the buffer will be after an output
+        size -= bitsOut;
+
+        // output the part that lies to the left of that number of bits
+        // by shifting the them to the right
+        write(buffer >> size);
+
+        // remove the bits we wrote from the buffer
+        // by applying a mask with the new size
+        buffer &= mask[size];
+      }
+    }
+
+    // If we're encoding and there's input left over, pad the output.
+    // Otherwise, leave the extra bits off, 'cause they themselves are padding
+    if (!decoding && size > 0) {
+      // flush the buffer
+      write(buffer << bitsOut - size);
+
+      // add padding keyString for the remainder of the group
+      len = output.length % group;
+      for (i = 0; i < len; i += 1) {
+        output.push(pad);
+      }
+    }
+
+    // string!
+    return arrayData && decoding ? output : output.join('');
+  };
+
+  /**
+        * Encode.  Input and output are strings.
+        */
+  encode = function encode(input) {
+    return translate(input, dataBits, codeBits, false);
+  };
+
+  /**
+        * Decode.  Input and output are strings.
+        */
+  decode = function decode(input) {
+    return translate(input, codeBits, dataBits, true);
+  };
+
+  this.encode = encode;
+  this.decode = decode;
+  construct();
+};
+
+var Base32 = new Nibbler({
+  dataBits: 8,
+  codeBits: 5,
+  keyString: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',
+  pad: '=' });
+
+var Base64 = new Nibbler({
+  dataBits: 8,
+  codeBits: 6,
+  keyString: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
+  pad: '=' });
+
+
+exports.Nibbler = Nibbler;
+exports.b32encode = Base32.encode;
+exports.b32decode = Base32.decode;
+exports.b64encode = Base64.encode;
+exports.b64decode = Base64.decode;
+
+/***/ }),
+
+/***/ 28:
+/*!***************************************************!*\
+  !*** D:/联合利众/动态验证/node_modules/jsotp/lib/util.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+exports.Util = undefined;
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}(); /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       *  @module   : Util module to process the datas.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       *  @author   : Gin (gin.lance.inside@hotmail.com)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       */
+
+var _base = __webpack_require__(/*! ./base32 */ 26);
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+var Util = exports.Util = function () {
+  function Util() {
+    _classCallCheck(this, Util);
+  }
+
+  _createClass(Util, null, [{
+    key: 'rjust',
+
+    /* ＊
+                     * Util rjust number with 0
+                     *
+                     * @param {num}
+                     * @type {int}
+                     * @desc input number
+                     *
+                     * @param {n}
+                     * @type {int}
+                     * @desc wanted length
+                     *
+                     * @return {String}
+                     */
+    value: function rjust(num, n) {
+      var numTmp = num;
+      var len = numTmp.toString().length;
+
+      while (len < n) {
+        numTmp = '0' + numTmp;
+        len += 1;
+      }
+
+      return numTmp;
+    }
+
+    /* ＊
+         * Util rjust array with ""
+         *
+         * @param {arr}
+         * @type {Array}
+         * @desc input array
+         *
+         * @param {n}
+         * @type {int}
+         * @desc wanted length
+         *
+         * @return {BYTES}
+         */ },
+
+  {
+    key: 'arr_rjust',
+    value: function arr_rjust(arr, n) {
+      var arrTmp = arr;
+      if (n <= arrTmp.length) {
+        arrTmp = arrTmp.splice(arrTmp.length - 1 - n);
+        return arrTmp;
+      }
+      var diff = n - arrTmp.length;
+      for (var i = 0; i < diff; i += 1) {
+        arrTmp.unshift(String.fromCharCode(0));
+      }
+      return arrTmp;
+    }
+
+    /* ＊
+         * Base32 decode the init secret
+         *
+         * @param {secret}
+         * @type {String}
+         * @desc input param, the init secret
+         *
+         * @return {String}
+         */ },
+
+  {
+    key: 'byte_secret',
+    value: function byte_secret(secret) {
+      return _base.Base32.decode(secret.toUpperCase());
+    }
+
+    /* ＊
+         * transfer the int type to BYTES type
+         *
+         * @param {input}
+         * @type {int}
+         * @desc input param, maybe counter or time
+         *
+         * @return {BYTES}
+         */ },
+
+  {
+    key: 'int_to_bytestring',
+    value: function int_to_bytestring(input) {
+      var padding = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 8;
+
+      var inputTmp = input;
+      var result = [];
+
+      while (inputTmp !== 0) {
+        result.push(String.fromCharCode(inputTmp & 0xFF));
+        inputTmp >>= 8;
+      }
+
+      result = result.reverse();
+      result = Util.arr_rjust(result, padding).join('');
+
+      return result;
+    }
+
+    /* ＊
+         * format the time string to int
+         *
+         * @param {time}
+         * @type {Date}
+         * @desc the time need to be format
+         *
+         * @param {interval}
+         * @type {Int}
+         * @desc interval means the one-time password's life,
+         * default to be 30.
+         *
+         * @return {Int}
+         */ },
+
+  {
+    key: 'timecode',
+    value: function timecode(time, interval) {
+      var timeStr = Date.parse(time).toString();
+
+      // fotmat the time, the ms is not needed.
+      var formatTime = timeStr.substring(0, timeStr.length - 3);
+
+      return parseInt(parseInt(formatTime) / interval);
+    } }]);
+
+
+  return Util;
+}();
+
+/***/ }),
+
+/***/ 29:
+/*!**************************************************!*\
+  !*** D:/联合利众/动态验证/node_modules/jssha/src/sha.js ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+var __WEBPACK_AMD_DEFINE_RESULT__;/*
+ A JavaScript implementation of the SHA family of hashes, as
+ defined in FIPS PUB 180-4 and FIPS PUB 202, as well as the corresponding
+ HMAC implementation as defined in FIPS PUB 198a
+
+ Copyright 2008-2020 Brian Turek, 1998-2009 Paul Johnston & Contributors
+ Distributed under the BSD License
+ See http://caligatio.github.com/jsSHA/ for more information
+*/
+(function (aa) {function C(d, b, a) {var h = 0,k = [],m = 0,g,l,c,f,n,q,u,r,I = !1,v = [],x = [],t,y = !1,z = !1,w = -1;a = a || {};g = a.encoding || "UTF8";t = a.numRounds || 1;if (t !== parseInt(t, 10) || 1 > t) throw Error("numRounds must a integer >= 1");if ("SHA-1" === d) n = 512, q = K, u = ba, f = 160, r = function r(b) {return b.slice();};else if (0 === d.lastIndexOf("SHA-", 0)) {if (q = function q(b, h) {return L(b, h, d);}, u = function u(b, h, k, a) {var e, f;if ("SHA-224" === d || "SHA-256" === d) e = (h + 65 >>> 9 << 4) + 15, f = 16;else if ("SHA-384" === d || "SHA-512" === d) e = (h + 129 >>> 10 <<
+        5) + 31, f = 32;else throw Error("Unexpected error in SHA-2 implementation");for (; b.length <= e;) {b.push(0);}b[h >>> 5] |= 128 << 24 - h % 32;h = h + k;b[e] = h & 4294967295;b[e - 1] = h / 4294967296 | 0;k = b.length;for (h = 0; h < k; h += f) {a = L(b.slice(h, h + f), a, d);}if ("SHA-224" === d) b = [a[0], a[1], a[2], a[3], a[4], a[5], a[6]];else if ("SHA-256" === d) b = a;else if ("SHA-384" === d) b = [a[0].a, a[0].b, a[1].a, a[1].b, a[2].a, a[2].b, a[3].a, a[3].b, a[4].a, a[4].b, a[5].a, a[5].b];else if ("SHA-512" === d) b = [a[0].a, a[0].b, a[1].a, a[1].b, a[2].a, a[2].b, a[3].a, a[3].b, a[4].a,
+        a[4].b, a[5].a, a[5].b, a[6].a, a[6].b, a[7].a, a[7].b];else throw Error("Unexpected error in SHA-2 implementation");return b;}, r = function r(b) {return b.slice();}, "SHA-224" === d) n = 512, f = 224;else if ("SHA-256" === d) n = 512, f = 256;else if ("SHA-384" === d) n = 1024, f = 384;else if ("SHA-512" === d) n = 1024, f = 512;else throw Error("Chosen SHA variant is not supported");} else if (0 === d.lastIndexOf("SHA3-", 0) || 0 === d.lastIndexOf("SHAKE", 0)) {var F = 6;q = D;r = function r(b) {var d = [],a;for (a = 0; 5 > a; a += 1) {d[a] = b[a].slice();}return d;};w = 1;if ("SHA3-224" ===
+      d) n = 1152, f = 224;else if ("SHA3-256" === d) n = 1088, f = 256;else if ("SHA3-384" === d) n = 832, f = 384;else if ("SHA3-512" === d) n = 576, f = 512;else if ("SHAKE128" === d) n = 1344, f = -1, F = 31, z = !0;else if ("SHAKE256" === d) n = 1088, f = -1, F = 31, z = !0;else throw Error("Chosen SHA variant is not supported");u = function u(b, d, a, h, k) {a = n;var e = F,f,g = [],m = a >>> 5,l = 0,c = d >>> 5;for (f = 0; f < c && d >= a; f += m) {h = D(b.slice(f, f + m), h), d -= a;}b = b.slice(f);for (d %= a; b.length < m;) {b.push(0);}f = d >>> 3;b[f >> 2] ^= e << f % 4 * 8;b[m - 1] ^= 2147483648;for (h = D(b, h); 32 * g.length < k;) {b = h[l %
+          5][l / 5 | 0];g.push(b.b);if (32 * g.length >= k) break;g.push(b.a);l += 1;0 === 64 * l % a && (D(null, h), l = 0);}return g;};} else throw Error("Chosen SHA variant is not supported");c = M(b, g, w);l = A(d);this.setHMACKey = function (b, a, k) {var e;if (!0 === I) throw Error("HMAC key already set");if (!0 === y) throw Error("Cannot set HMAC key after calling update");if (!0 === z) throw Error("SHAKE is not supported for HMAC");g = (k || {}).encoding || "UTF8";a = M(a, g, w)(b);b = a.binLen;a = a.value;e = n >>> 3;k = e / 4 - 1;for (e < b / 8 && (a = u(a, b, 0, A(d), f)); a.length <=
+      k;) {a.push(0);}for (b = 0; b <= k; b += 1) {v[b] = a[b] ^ 909522486, x[b] = a[b] ^ 1549556828;}l = q(v, l);h = n;I = !0;};this.update = function (b) {var d,a,e,f = 0,g = n >>> 5;d = c(b, k, m);b = d.binLen;a = d.value;d = b >>> 5;for (e = 0; e < d; e += g) {f + n <= b && (l = q(a.slice(e, e + g), l), f += n);}h += f;k = a.slice(f >>> 5);m = b % n;y = !0;};this.getHash = function (b, a) {var e, g, c, n;if (!0 === I) throw Error("Cannot call getHash after setting HMAC key");c = N(a);if (!0 === z) {if (-1 === c.shakeLen) throw Error("shakeLen must be specified in options");f = c.shakeLen;}switch (b) {case "HEX":e = function e(b) {return O(b,
+            f, w, c);};break;case "B64":e = function e(b) {return P(b, f, w, c);};break;case "BYTES":e = function e(b) {return Q(b, f, w);};break;case "ARRAYBUFFER":try {g = new ArrayBuffer(0);} catch (p) {throw Error("ARRAYBUFFER not supported by this environment");}e = function e(b) {return R(b, f, w);};break;case "UINT8ARRAY":try {g = new Uint8Array(0);} catch (p) {throw Error("UINT8ARRAY not supported by this environment");}e = function e(b) {return S(b, f, w);};break;default:throw Error("format must be HEX, B64, BYTES, ARRAYBUFFER, or UINT8ARRAY");}n = u(k.slice(),
+      m, h, r(l), f);for (g = 1; g < t; g += 1) {!0 === z && 0 !== f % 32 && (n[n.length - 1] &= 16777215 >>> 24 - f % 32), n = u(n, f, 0, A(d), f);}return e(n);};this.getHMAC = function (b, a) {var e, g, c, p;if (!1 === I) throw Error("Cannot call getHMAC without first setting HMAC key");c = N(a);switch (b) {case "HEX":e = function e(b) {return O(b, f, w, c);};break;case "B64":e = function e(b) {return P(b, f, w, c);};break;case "BYTES":e = function e(b) {return Q(b, f, w);};break;case "ARRAYBUFFER":try {e = new ArrayBuffer(0);} catch (v) {throw Error("ARRAYBUFFER not supported by this environment");
+          }e = function e(b) {return R(b, f, w);};break;case "UINT8ARRAY":try {e = new Uint8Array(0);} catch (v) {throw Error("UINT8ARRAY not supported by this environment");}e = function e(b) {return S(b, f, w);};break;default:throw Error("outputFormat must be HEX, B64, BYTES, ARRAYBUFFER, or UINT8ARRAY");}g = u(k.slice(), m, h, r(l), f);p = q(x, A(d));p = u(g, f, n, p, f);return e(p);};}function a(d, b) {this.a = d;this.b = b;}function T(d, b, a, h) {var k, m, g, l, c;b = b || [0];a = a || 0;m = a >>> 3;c = -1 === h ? 3 : 0;for (k = 0; k < d.length; k += 1) {l = k + m, g = l >>> 2, b.length <= g && b.push(0),
+      b[g] |= d[k] << 8 * (c + l % 4 * h);}return { value: b, binLen: 8 * d.length + a };}function O(a, b, e, h) {var k = "";b /= 8;var m, g, c;c = -1 === e ? 3 : 0;for (m = 0; m < b; m += 1) {g = a[m >>> 2] >>> 8 * (c + m % 4 * e), k += "0123456789abcdef".charAt(g >>> 4 & 15) + "0123456789abcdef".charAt(g & 15);}return h.outputUpper ? k.toUpperCase() : k;}function P(a, b, e, h) {var k = "",m = b / 8,g,c,p,f;f = -1 === e ? 3 : 0;for (g = 0; g < m; g += 3) {for (c = g + 1 < m ? a[g + 1 >>> 2] : 0, p = g + 2 < m ? a[g + 2 >>> 2] : 0, p = (a[g >>> 2] >>> 8 * (f + g % 4 * e) & 255) << 16 | (c >>> 8 * (f + (g + 1) % 4 * e) & 255) << 8 | p >>> 8 * (f + (g + 2) % 4 * e) & 255, c = 0; 4 > c; c += 1) {8 * g + 6 * c <= b ? k +=
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".charAt(p >>> 6 * (3 - c) & 63) : k += h.b64Pad;}}return k;}function Q(a, b, e) {var h = "";b /= 8;var k, c, g;g = -1 === e ? 3 : 0;for (k = 0; k < b; k += 1) {c = a[k >>> 2] >>> 8 * (g + k % 4 * e) & 255, h += String.fromCharCode(c);}return h;}function R(a, b, e) {b /= 8;var h,k = new ArrayBuffer(b),c,g;g = new Uint8Array(k);c = -1 === e ? 3 : 0;for (h = 0; h < b; h += 1) {g[h] = a[h >>> 2] >>> 8 * (c + h % 4 * e) & 255;}return k;}function S(a, b, e) {b /= 8;var h,k = new Uint8Array(b),c;c = -1 === e ? 3 : 0;for (h = 0; h < b; h += 1) {k[h] = a[h >>> 2] >>> 8 * (c + h % 4 * e) &
+      255;}return k;}function N(a) {var b = { outputUpper: !1, b64Pad: "=", shakeLen: -1 };a = a || {};b.outputUpper = a.outputUpper || !1;!0 === a.hasOwnProperty("b64Pad") && (b.b64Pad = a.b64Pad);if (!0 === a.hasOwnProperty("shakeLen")) {if (0 !== a.shakeLen % 8) throw Error("shakeLen must be a multiple of 8");b.shakeLen = a.shakeLen;}if ("boolean" !== typeof b.outputUpper) throw Error("Invalid outputUpper formatting option");if ("string" !== typeof b.b64Pad) throw Error("Invalid b64Pad formatting option");return b;}function M(a, b, e) {switch (b) {case "UTF8":case "UTF16BE":case "UTF16LE":break;
+      default:throw Error("encoding must be UTF8, UTF16BE, or UTF16LE");}switch (a) {case "HEX":a = function a(b, _a, d) {var g = b.length,c,p,f,n,q,u;if (0 !== g % 2) throw Error("String of HEX type must be in byte increments");_a = _a || [0];d = d || 0;q = d >>> 3;u = -1 === e ? 3 : 0;for (c = 0; c < g; c += 2) {p = parseInt(b.substr(c, 2), 16);if (isNaN(p)) throw Error("String of HEX type contains invalid characters");n = (c >>> 1) + q;for (f = n >>> 2; _a.length <= f;) {_a.push(0);}_a[f] |= p << 8 * (u + n % 4 * e);}return { value: _a, binLen: 4 * g + d };};break;case "TEXT":a = function a(_a2, d, c) {var g,
+          l,p = 0,f,n,q,u,r,t;d = d || [0];c = c || 0;q = c >>> 3;if ("UTF8" === b) for (t = -1 === e ? 3 : 0, f = 0; f < _a2.length; f += 1) {for (g = _a2.charCodeAt(f), l = [], 128 > g ? l.push(g) : 2048 > g ? (l.push(192 | g >>> 6), l.push(128 | g & 63)) : 55296 > g || 57344 <= g ? l.push(224 | g >>> 12, 128 | g >>> 6 & 63, 128 | g & 63) : (f += 1, g = 65536 + ((g & 1023) << 10 | _a2.charCodeAt(f) & 1023), l.push(240 | g >>> 18, 128 | g >>> 12 & 63, 128 | g >>> 6 & 63, 128 | g & 63)), n = 0; n < l.length; n += 1) {r = p + q;for (u = r >>> 2; d.length <= u;) {d.push(0);}d[u] |= l[n] << 8 * (t + r % 4 * e);p += 1;}} else if ("UTF16BE" === b || "UTF16LE" === b) for (t = -1 === e ? 2 : 0, l = "UTF16LE" ===
+          b && 1 !== e || "UTF16LE" !== b && 1 === e, f = 0; f < _a2.length; f += 1) {g = _a2.charCodeAt(f);!0 === l && (n = g & 255, g = n << 8 | g >>> 8);r = p + q;for (u = r >>> 2; d.length <= u;) {d.push(0);}d[u] |= g << 8 * (t + r % 4 * e);p += 2;}return { value: d, binLen: 8 * p + c };};break;case "B64":a = function a(b, _a3, d) {var c = 0,l,p,f,n,q,u,r,t;if (-1 === b.search(/^[a-zA-Z0-9=+\/]+$/)) throw Error("Invalid character in base-64 string");p = b.indexOf("=");b = b.replace(/\=/g, "");if (-1 !== p && p < b.length) throw Error("Invalid '=' found in base-64 string");_a3 = _a3 || [0];d = d || 0;u = d >>> 3;t = -1 === e ? 3 : 0;for (p =
+          0; p < b.length; p += 4) {q = b.substr(p, 4);for (f = n = 0; f < q.length; f += 1) {l = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".indexOf(q.charAt(f)), n |= l << 18 - 6 * f;}for (f = 0; f < q.length - 1; f += 1) {r = c + u;for (l = r >>> 2; _a3.length <= l;) {_a3.push(0);}_a3[l] |= (n >>> 16 - 8 * f & 255) << 8 * (t + r % 4 * e);c += 1;}}return { value: _a3, binLen: 8 * c + d };};break;case "BYTES":a = function a(b, _a4, d) {var c, l, p, f, n, q;_a4 = _a4 || [0];d = d || 0;p = d >>> 3;q = -1 === e ? 3 : 0;for (l = 0; l < b.length; l += 1) {c = b.charCodeAt(l), n = l + p, f = n >>> 2, _a4.length <= f && _a4.push(0), _a4[f] |= c << 8 * (q + n % 4 * e);}return { value: _a4,
+            binLen: 8 * b.length + d };};break;case "ARRAYBUFFER":try {a = new ArrayBuffer(0);} catch (h) {throw Error("ARRAYBUFFER not supported by this environment");}a = function a(b, _a5, d) {return T(new Uint8Array(b), _a5, d, e);};break;case "UINT8ARRAY":try {a = new Uint8Array(0);} catch (h) {throw Error("UINT8ARRAY not supported by this environment");}a = function a(b, _a6, d) {return T(b, _a6, d, e);};break;default:throw Error("format must be HEX, TEXT, B64, BYTES, ARRAYBUFFER, or UINT8ARRAY");}return a;}function y(a, b) {return a << b | a >>> 32 - b;}function U(d,
+  b) {return 32 < b ? (b -= 32, new a(d.b << b | d.a >>> 32 - b, d.a << b | d.b >>> 32 - b)) : 0 !== b ? new a(d.a << b | d.b >>> 32 - b, d.b << b | d.a >>> 32 - b) : d;}function x(a, b) {return a >>> b | a << 32 - b;}function t(d, b) {var e = null,e = new a(d.a, d.b);return e = 32 >= b ? new a(e.a >>> b | e.b << 32 - b & 4294967295, e.b >>> b | e.a << 32 - b & 4294967295) : new a(e.b >>> b - 32 | e.a << 64 - b & 4294967295, e.a >>> b - 32 | e.b << 64 - b & 4294967295);}function V(d, b) {var e = null;return e = 32 >= b ? new a(d.a >>> b, d.b >>> b | d.a << 32 - b & 4294967295) : new a(0, d.a >>> b - 32);}function ca(a, b, e) {return a & b ^ ~a & e;}function da(d,
+  b, e) {return new a(d.a & b.a ^ ~d.a & e.a, d.b & b.b ^ ~d.b & e.b);}function W(a, b, e) {return a & b ^ a & e ^ b & e;}function ea(d, b, e) {return new a(d.a & b.a ^ d.a & e.a ^ b.a & e.a, d.b & b.b ^ d.b & e.b ^ b.b & e.b);}function fa(a) {return x(a, 2) ^ x(a, 13) ^ x(a, 22);}function ga(d) {var b = t(d, 28),e = t(d, 34);d = t(d, 39);return new a(b.a ^ e.a ^ d.a, b.b ^ e.b ^ d.b);}function ha(a) {return x(a, 6) ^ x(a, 11) ^ x(a, 25);}function ia(d) {var b = t(d, 14),e = t(d, 18);d = t(d, 41);return new a(b.a ^ e.a ^ d.a, b.b ^ e.b ^ d.b);}function ja(a) {return x(a, 7) ^ x(a, 18) ^ a >>> 3;}function ka(d) {var b = t(d,
+    1),e = t(d, 8);d = V(d, 7);return new a(b.a ^ e.a ^ d.a, b.b ^ e.b ^ d.b);}function la(a) {return x(a, 17) ^ x(a, 19) ^ a >>> 10;}function ma(d) {var b = t(d, 19),e = t(d, 61);d = V(d, 6);return new a(b.a ^ e.a ^ d.a, b.b ^ e.b ^ d.b);}function G(a, b) {var e = (a & 65535) + (b & 65535);return ((a >>> 16) + (b >>> 16) + (e >>> 16) & 65535) << 16 | e & 65535;}function na(a, b, e, h) {var c = (a & 65535) + (b & 65535) + (e & 65535) + (h & 65535);return ((a >>> 16) + (b >>> 16) + (e >>> 16) + (h >>> 16) + (c >>> 16) & 65535) << 16 | c & 65535;}function H(a, b, e, h, c) {var m = (a & 65535) + (b & 65535) + (e & 65535) + (h & 65535) + (c & 65535);
+    return ((a >>> 16) + (b >>> 16) + (e >>> 16) + (h >>> 16) + (c >>> 16) + (m >>> 16) & 65535) << 16 | m & 65535;}function oa(d, b) {var e, h, c;e = (d.b & 65535) + (b.b & 65535);h = (d.b >>> 16) + (b.b >>> 16) + (e >>> 16);c = (h & 65535) << 16 | e & 65535;e = (d.a & 65535) + (b.a & 65535) + (h >>> 16);h = (d.a >>> 16) + (b.a >>> 16) + (e >>> 16);return new a((h & 65535) << 16 | e & 65535, c);}function pa(d, b, e, h) {var c, m, g;c = (d.b & 65535) + (b.b & 65535) + (e.b & 65535) + (h.b & 65535);m = (d.b >>> 16) + (b.b >>> 16) + (e.b >>> 16) + (h.b >>> 16) + (c >>> 16);g = (m & 65535) << 16 | c & 65535;c = (d.a & 65535) + (b.a & 65535) + (e.a & 65535) + (h.a & 65535) + (
+    m >>> 16);m = (d.a >>> 16) + (b.a >>> 16) + (e.a >>> 16) + (h.a >>> 16) + (c >>> 16);return new a((m & 65535) << 16 | c & 65535, g);}function qa(d, b, e, h, c) {var m, g, l;m = (d.b & 65535) + (b.b & 65535) + (e.b & 65535) + (h.b & 65535) + (c.b & 65535);g = (d.b >>> 16) + (b.b >>> 16) + (e.b >>> 16) + (h.b >>> 16) + (c.b >>> 16) + (m >>> 16);l = (g & 65535) << 16 | m & 65535;m = (d.a & 65535) + (b.a & 65535) + (e.a & 65535) + (h.a & 65535) + (c.a & 65535) + (g >>> 16);g = (d.a >>> 16) + (b.a >>> 16) + (e.a >>> 16) + (h.a >>> 16) + (c.a >>> 16) + (m >>> 16);return new a((g & 65535) << 16 | m & 65535, l);}function B(d, b) {return new a(d.a ^ b.a, d.b ^
+    b.b);}function A(d) {var b = [],e;if ("SHA-1" === d) b = [1732584193, 4023233417, 2562383102, 271733878, 3285377520];else if (0 === d.lastIndexOf("SHA-", 0)) switch (b = [3238371032, 914150663, 812702999, 4144912697, 4290775857, 1750603025, 1694076839, 3204075428], e = [1779033703, 3144134277, 1013904242, 2773480762, 1359893119, 2600822924, 528734635, 1541459225], d) {case "SHA-224":break;case "SHA-256":b = e;break;case "SHA-384":b = [new a(3418070365, b[0]), new a(1654270250, b[1]), new a(2438529370, b[2]), new a(355462360, b[3]), new a(1731405415,
+        b[4]), new a(41048885895, b[5]), new a(3675008525, b[6]), new a(1203062813, b[7])];break;case "SHA-512":b = [new a(e[0], 4089235720), new a(e[1], 2227873595), new a(e[2], 4271175723), new a(e[3], 1595750129), new a(e[4], 2917565137), new a(e[5], 725511199), new a(e[6], 4215389547), new a(e[7], 327033209)];break;default:throw Error("Unknown SHA variant");} else if (0 === d.lastIndexOf("SHA3-", 0) || 0 === d.lastIndexOf("SHAKE", 0)) for (d = 0; 5 > d; d += 1) {b[d] = [new a(0, 0), new a(0, 0), new a(0, 0), new a(0, 0), new a(0, 0)];} else throw Error("No SHA variants supported");
+    return b;}function K(a, b) {var e = [],h,c,m,g,l,p,f;h = b[0];c = b[1];m = b[2];g = b[3];l = b[4];for (f = 0; 80 > f; f += 1) {e[f] = 16 > f ? a[f] : y(e[f - 3] ^ e[f - 8] ^ e[f - 14] ^ e[f - 16], 1), p = 20 > f ? H(y(h, 5), c & m ^ ~c & g, l, 1518500249, e[f]) : 40 > f ? H(y(h, 5), c ^ m ^ g, l, 1859775393, e[f]) : 60 > f ? H(y(h, 5), W(c, m, g), l, 2400959708, e[f]) : H(y(h, 5), c ^ m ^ g, l, 3395469782, e[f]), l = g, g = m, m = y(c, 30), c = h, h = p;}b[0] = G(h, b[0]);b[1] = G(c, b[1]);b[2] = G(m, b[2]);b[3] = G(g, b[3]);b[4] = G(l, b[4]);return b;}function ba(a, b, e, c) {var k;for (k = (b + 65 >>> 9 << 4) + 15; a.length <= k;) {a.push(0);}a[b >>> 5] |=
+    128 << 24 - b % 32;b += e;a[k] = b & 4294967295;a[k - 1] = b / 4294967296 | 0;b = a.length;for (k = 0; k < b; k += 16) {c = K(a.slice(k, k + 16), c);}return c;}function L(d, b, e) {var h,k,m,g,l,p,f,n,q,u,r,t,v,x,y,A,z,w,F,B,C,D,E = [],J;if ("SHA-224" === e || "SHA-256" === e) u = 64, t = 1, D = Number, v = G, x = na, y = H, A = ja, z = la, w = fa, F = ha, C = W, B = ca, J = c;else if ("SHA-384" === e || "SHA-512" === e) u = 80, t = 2, D = a, v = oa, x = pa, y = qa, A = ka, z = ma, w = ga, F = ia, C = ea, B = da, J = X;else throw Error("Unexpected error in SHA-2 implementation");e = b[0];h = b[1];k = b[2];m = b[3];g = b[4];l = b[5];p = b[6];f = b[7];
+    for (r = 0; r < u; r += 1) {16 > r ? (q = r * t, n = d.length <= q ? 0 : d[q], q = d.length <= q + 1 ? 0 : d[q + 1], E[r] = new D(n, q)) : E[r] = x(z(E[r - 2]), E[r - 7], A(E[r - 15]), E[r - 16]), n = y(f, F(g), B(g, l, p), J[r], E[r]), q = v(w(e), C(e, h, k)), f = p, p = l, l = g, g = v(m, n), m = k, k = h, h = e, e = v(n, q);}b[0] = v(e, b[0]);b[1] = v(h, b[1]);b[2] = v(k, b[2]);b[3] = v(m, b[3]);b[4] = v(g, b[4]);b[5] = v(l, b[5]);b[6] = v(p, b[6]);b[7] = v(f, b[7]);return b;}function D(d, b) {var e,c,k,m,g = [],l = [];if (null !== d) for (c = 0; c < d.length; c += 2) {b[(c >>> 1) % 5][(c >>> 1) / 5 | 0] = B(b[(c >>> 1) % 5][(c >>> 1) / 5 | 0], new a(d[c + 1], d[c]));}
+    for (e = 0; 24 > e; e += 1) {m = A("SHA3-");for (c = 0; 5 > c; c += 1) {k = b[c][0];var p = b[c][1],f = b[c][2],n = b[c][3],q = b[c][4];g[c] = new a(k.a ^ p.a ^ f.a ^ n.a ^ q.a, k.b ^ p.b ^ f.b ^ n.b ^ q.b);}for (c = 0; 5 > c; c += 1) {l[c] = B(g[(c + 4) % 5], U(g[(c + 1) % 5], 1));}for (c = 0; 5 > c; c += 1) {for (k = 0; 5 > k; k += 1) {b[c][k] = B(b[c][k], l[c]);}}for (c = 0; 5 > c; c += 1) {for (k = 0; 5 > k; k += 1) {m[k][(2 * c + 3 * k) % 5] = U(b[c][k], Y[c][k]);}}for (c = 0; 5 > c; c += 1) {for (k = 0; 5 > k; k += 1) {b[c][k] = B(m[c][k], new a(~m[(c + 1) % 5][k].a & m[(c + 2) % 5][k].a, ~m[(c + 1) % 5][k].b & m[(c + 2) % 5][k].b));}}b[0][0] = B(b[0][0], Z[e]);}return b;}var c,
+  X, Y, Z;c = [1116352408, 1899447441, 3049323471, 3921009573, 961987163, 1508970993, 2453635748, 2870763221, 3624381080, 310598401, 607225278, 1426881987, 1925078388, 2162078206, 2614888103, 3248222580, 3835390401, 4022224774, 264347078, 604807628, 770255983, 1249150122, 1555081692, 1996064986, 2554220882, 2821834349, 2952996808, 3210313671, 3336571891, 3584528711, 113926993, 338241895, 666307205, 773529912, 1294757372, 1396182291, 1695183700, 1986661051, 2177026350, 2456956037, 2730485921, 2820302411, 3259730800, 3345764771, 3516065817, 3600352804,
+  4094571909, 275423344, 430227734, 506948616, 659060556, 883997877, 958139571, 1322822218, 1537002063, 1747873779, 1955562222, 2024104815, 2227730452, 2361852424, 2428436474, 2756734187, 3204031479, 3329325298];X = [new a(c[0], 3609767458), new a(c[1], 602891725), new a(c[2], 3964484399), new a(c[3], 2173295548), new a(c[4], 4081628472), new a(c[5], 3053834265), new a(c[6], 2937671579), new a(c[7], 3664609560), new a(c[8], 2734883394), new a(c[9], 1164996542), new a(c[10], 1323610764), new a(c[11], 3590304994), new a(c[12], 4068182383), new a(c[13],
+  991336113), new a(c[14], 633803317), new a(c[15], 3479774868), new a(c[16], 2666613458), new a(c[17], 944711139), new a(c[18], 2341262773), new a(c[19], 2007800933), new a(c[20], 1495990901), new a(c[21], 1856431235), new a(c[22], 3175218132), new a(c[23], 2198950837), new a(c[24], 3999719339), new a(c[25], 766784016), new a(c[26], 2566594879), new a(c[27], 3203337956), new a(c[28], 1034457026), new a(c[29], 2466948901), new a(c[30], 3758326383), new a(c[31], 168717936), new a(c[32], 1188179964), new a(c[33], 1546045734), new a(c[34], 1522805485),
+  new a(c[35], 2643833823), new a(c[36], 2343527390), new a(c[37], 1014477480), new a(c[38], 1206759142), new a(c[39], 344077627), new a(c[40], 1290863460), new a(c[41], 3158454273), new a(c[42], 3505952657), new a(c[43], 106217008), new a(c[44], 3606008344), new a(c[45], 1432725776), new a(c[46], 1467031594), new a(c[47], 851169720), new a(c[48], 3100823752), new a(c[49], 1363258195), new a(c[50], 3750685593), new a(c[51], 3785050280), new a(c[52], 3318307427), new a(c[53], 3812723403), new a(c[54], 2003034995), new a(c[55], 3602036899),
+  new a(c[56], 1575990012), new a(c[57], 1125592928), new a(c[58], 2716904306), new a(c[59], 442776044), new a(c[60], 593698344), new a(c[61], 3733110249), new a(c[62], 2999351573), new a(c[63], 3815920427), new a(3391569614, 3928383900), new a(3515267271, 566280711), new a(3940187606, 3454069534), new a(4118630271, 4000239992), new a(116418474, 1914138554), new a(174292421, 2731055270), new a(289380356, 3203993006), new a(460393269, 320620315), new a(685471733, 587496836), new a(852142971, 1086792851), new a(1017036298, 365543100), new a(1126000580,
+  2618297676), new a(1288033470, 3409855158), new a(1501505948, 4234509866), new a(1607167915, 987167468), new a(1816402316, 1246189591)];Z = [new a(0, 1), new a(0, 32898), new a(2147483648, 32906), new a(2147483648, 2147516416), new a(0, 32907), new a(0, 2147483649), new a(2147483648, 2147516545), new a(2147483648, 32777), new a(0, 138), new a(0, 136), new a(0, 2147516425), new a(0, 2147483658), new a(0, 2147516555), new a(2147483648, 139), new a(2147483648, 32905), new a(2147483648, 32771), new a(2147483648, 32770), new a(2147483648, 128), new a(0,
+  32778), new a(2147483648, 2147483658), new a(2147483648, 2147516545), new a(2147483648, 32896), new a(0, 2147483649), new a(2147483648, 2147516424)];Y = [[0, 36, 3, 41, 18], [1, 44, 10, 45, 2], [62, 6, 43, 15, 61], [28, 55, 25, 21, 56], [27, 20, 39, 8, 14]]; true ? !(__WEBPACK_AMD_DEFINE_RESULT__ = (function () {return C;}).call(exports, __webpack_require__, exports, module),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)) : undefined;})(this);
+
+/***/ }),
+
+/***/ 3:
 /*!******************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js ***!
   \******************************************************************************************/
@@ -7606,7 +9406,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_NAME":"联横利众数字云动态验证器","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_NAME":"联横利众数字云动态验证器","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -7627,14 +9427,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"联横利众数字云动态验证器","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_NAME":"联横利众数字云动态验证器","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"联横利众数字云动态验证器","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_NAME":"联横利众数字云动态验证器","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -7720,7 +9520,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"联横利众数字云动态验证器","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_NAME":"联横利众数字云动态验证器","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -8127,7 +9927,131 @@ internalMixin(Vue);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ 2)))
 
 /***/ }),
-/* 4 */
+
+/***/ 30:
+/*!***************************************************!*\
+  !*** D:/联合利众/动态验证/node_modules/jsotp/lib/hotp.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true });
+
+exports.HOTP = undefined;
+
+var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
+
+var _get = function get(object, property, receiver) {if (object === null) object = Function.prototype;var desc = Object.getOwnPropertyDescriptor(object, property);if (desc === undefined) {var parent = Object.getPrototypeOf(object);if (parent === null) {return undefined;} else {return get(parent, property, receiver);}} else if ("value" in desc) {return desc.value;} else {var getter = desc.get;if (getter === undefined) {return undefined;}return getter.call(receiver);}};
+
+var _otp = __webpack_require__(/*! ./otp */ 25);
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
+
+function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
+
+function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          *  @module   : HOTP module to generate and verify HOTP password
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          *  @author   : Gin (gin.lance.inside@hotmail.com)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          */
+
+var HOTP = exports.HOTP = function (_OTP) {
+  _inherits(HOTP, _OTP);
+
+  function HOTP() {
+    _classCallCheck(this, HOTP);
+
+    return _possibleConstructorReturn(this, (HOTP.__proto__ || Object.getPrototypeOf(HOTP)).apply(this, arguments));
+  }
+
+  _createClass(HOTP, [{
+    key: 'at',
+
+    /* ＊
+                  * Generate the OTP with the given count
+                  *
+                  * @param {count}
+                  * @type {int}
+                  * @desc the OTP HMAC counter
+                  *
+                  * @return {OTP}
+                  *
+                  * @example
+                  * ```javascript
+                  * let hotp = jsotp.HOTP('BASE32_ENCODED_SECRET');
+                  * hotp.at(0); // => 432143
+                  * ```
+                  */
+    value: function at(count) {
+      var digit = _get(HOTP.prototype.__proto__ || Object.getPrototypeOf(HOTP.prototype), 'generate_otp', this).call(this, count);
+      return digit;
+    }
+
+    /* ＊
+         * Verifies the OTP passed in against the current counter.
+         *
+         * @param {otp}
+         * @type {String}
+         * @desc the OTP waiting for checking
+         *
+         * @param {counter}
+         * @type {int}
+         * @desc the OTP HMAC counter
+         *
+         * @return {Boolean}
+         *
+         * @example
+         * ```javascript
+         * let hotp = jsotp.HOTP('BASE32_ENCODED_SECRET');
+         * hotp.at(0); // => 432143
+         * hotp.verify(432143, 0); // => true
+         * hotp.verify(432143, 1); // => false
+         * ```
+         */ },
+
+  {
+    key: 'verify',
+    value: function verify(otp, counter) {
+      var otp_count = this.at(counter);
+
+      if (typeof otp === 'number') {
+        otp = otp.toString();
+      }
+
+      if (otp === otp_count) {
+        return true;
+      }
+      return false;
+    }
+
+    /* ＊
+         * Generate a url with HOTP instance.
+         *
+         * @param {issuer}
+         * @type {String}
+         * @desc maybe it is the Service name
+         *
+         * @return {String}
+         */ },
+
+  {
+    key: 'url_gen',
+    value: function url_gen() {
+      var issuer = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+      return _get(HOTP.prototype.__proto__ || Object.getPrototypeOf(HOTP.prototype), 'url_gen', this).call(this, issuer, 'hotp');
+    } }]);
+
+
+  return HOTP;
+}(_otp.OTP);
+
+/***/ }),
+
+/***/ 4:
 /*!*************************************************************!*\
   !*** ./node_modules/@dcloudio/uni-i18n/dist/uni-i18n.es.js ***!
   \*************************************************************/
@@ -8590,7 +10514,8 @@ function resolveLocaleChain(locale) {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"], __webpack_require__(/*! ./../../../webpack/buildin/global.js */ 2)))
 
 /***/ }),
-/* 5 */
+
+/***/ 5:
 /*!*******************************!*\
   !*** D:/联合利众/动态验证/pages.json ***!
   \*******************************/
@@ -8599,1798 +10524,7 @@ function resolveLocaleChain(locale) {
 
 
 
-/***/ }),
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */,
-/* 11 */
-/*!**********************************************************************************************************!*\
-  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
-  \**********************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-function normalizeComponent (
-  scriptExports,
-  render,
-  staticRenderFns,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier, /* server only */
-  shadowMode, /* vue-cli only */
-  components, // fixed by xxxxxx auto components
-  renderjs // fixed by xxxxxx renderjs
-) {
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // fixed by xxxxxx auto components
-  if (components) {
-    if (!options.components) {
-      options.components = {}
-    }
-    var hasOwn = Object.prototype.hasOwnProperty
-    for (var name in components) {
-      if (hasOwn.call(components, name) && !hasOwn.call(options.components, name)) {
-        options.components[name] = components[name]
-      }
-    }
-  }
-  // fixed by xxxxxx renderjs
-  if (renderjs) {
-    (renderjs.beforeCreate || (renderjs.beforeCreate = [])).unshift(function() {
-      this[renderjs.__module] = this
-    });
-    (options.mixins || (options.mixins = [])).push(renderjs)
-  }
-
-  // render functions
-  if (render) {
-    options.render = render
-    options.staticRenderFns = staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = 'data-v-' + scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = shadowMode
-      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
-      : injectStyles
-  }
-
-  if (hook) {
-    if (options.functional) {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      var originalRender = options.render
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return originalRender(h, context)
-      }
-    } else {
-      // inject component registration as beforeCreate hook
-      var existing = options.beforeCreate
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    }
-  }
-
-  return {
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
-/* 12 */,
-/* 13 */,
-/* 14 */,
-/* 15 */,
-/* 16 */,
-/* 17 */,
-/* 18 */
-/*!**************************************!*\
-  !*** ./node_modules/qs/lib/index.js ***!
-  \**************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var stringify = __webpack_require__(/*! ./stringify */ 19);
-var parse = __webpack_require__(/*! ./parse */ 22);
-var formats = __webpack_require__(/*! ./formats */ 21);
-
-module.exports = {
-    formats: formats,
-    parse: parse,
-    stringify: stringify
-};
-
-
-/***/ }),
-/* 19 */
-/*!******************************************!*\
-  !*** ./node_modules/qs/lib/stringify.js ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(/*! ./utils */ 20);
-var formats = __webpack_require__(/*! ./formats */ 21);
-
-var arrayPrefixGenerators = {
-    brackets: function brackets(prefix) { // eslint-disable-line func-name-matching
-        return prefix + '[]';
-    },
-    indices: function indices(prefix, key) { // eslint-disable-line func-name-matching
-        return prefix + '[' + key + ']';
-    },
-    repeat: function repeat(prefix) { // eslint-disable-line func-name-matching
-        return prefix;
-    }
-};
-
-var toISO = Date.prototype.toISOString;
-
-var defaults = {
-    delimiter: '&',
-    encode: true,
-    encoder: utils.encode,
-    encodeValuesOnly: false,
-    serializeDate: function serializeDate(date) { // eslint-disable-line func-name-matching
-        return toISO.call(date);
-    },
-    skipNulls: false,
-    strictNullHandling: false
-};
-
-var stringify = function stringify( // eslint-disable-line func-name-matching
-    object,
-    prefix,
-    generateArrayPrefix,
-    strictNullHandling,
-    skipNulls,
-    encoder,
-    filter,
-    sort,
-    allowDots,
-    serializeDate,
-    formatter,
-    encodeValuesOnly
-) {
-    var obj = object;
-    if (typeof filter === 'function') {
-        obj = filter(prefix, obj);
-    } else if (obj instanceof Date) {
-        obj = serializeDate(obj);
-    } else if (obj === null) {
-        if (strictNullHandling) {
-            return encoder && !encodeValuesOnly ? encoder(prefix, defaults.encoder) : prefix;
-        }
-
-        obj = '';
-    }
-
-    if (typeof obj === 'string' || typeof obj === 'number' || typeof obj === 'boolean' || utils.isBuffer(obj)) {
-        if (encoder) {
-            var keyValue = encodeValuesOnly ? prefix : encoder(prefix, defaults.encoder);
-            return [formatter(keyValue) + '=' + formatter(encoder(obj, defaults.encoder))];
-        }
-        return [formatter(prefix) + '=' + formatter(String(obj))];
-    }
-
-    var values = [];
-
-    if (typeof obj === 'undefined') {
-        return values;
-    }
-
-    var objKeys;
-    if (Array.isArray(filter)) {
-        objKeys = filter;
-    } else {
-        var keys = Object.keys(obj);
-        objKeys = sort ? keys.sort(sort) : keys;
-    }
-
-    for (var i = 0; i < objKeys.length; ++i) {
-        var key = objKeys[i];
-
-        if (skipNulls && obj[key] === null) {
-            continue;
-        }
-
-        if (Array.isArray(obj)) {
-            values = values.concat(stringify(
-                obj[key],
-                generateArrayPrefix(prefix, key),
-                generateArrayPrefix,
-                strictNullHandling,
-                skipNulls,
-                encoder,
-                filter,
-                sort,
-                allowDots,
-                serializeDate,
-                formatter,
-                encodeValuesOnly
-            ));
-        } else {
-            values = values.concat(stringify(
-                obj[key],
-                prefix + (allowDots ? '.' + key : '[' + key + ']'),
-                generateArrayPrefix,
-                strictNullHandling,
-                skipNulls,
-                encoder,
-                filter,
-                sort,
-                allowDots,
-                serializeDate,
-                formatter,
-                encodeValuesOnly
-            ));
-        }
-    }
-
-    return values;
-};
-
-module.exports = function (object, opts) {
-    var obj = object;
-    var options = opts ? utils.assign({}, opts) : {};
-
-    if (options.encoder !== null && options.encoder !== undefined && typeof options.encoder !== 'function') {
-        throw new TypeError('Encoder has to be a function.');
-    }
-
-    var delimiter = typeof options.delimiter === 'undefined' ? defaults.delimiter : options.delimiter;
-    var strictNullHandling = typeof options.strictNullHandling === 'boolean' ? options.strictNullHandling : defaults.strictNullHandling;
-    var skipNulls = typeof options.skipNulls === 'boolean' ? options.skipNulls : defaults.skipNulls;
-    var encode = typeof options.encode === 'boolean' ? options.encode : defaults.encode;
-    var encoder = typeof options.encoder === 'function' ? options.encoder : defaults.encoder;
-    var sort = typeof options.sort === 'function' ? options.sort : null;
-    var allowDots = typeof options.allowDots === 'undefined' ? false : options.allowDots;
-    var serializeDate = typeof options.serializeDate === 'function' ? options.serializeDate : defaults.serializeDate;
-    var encodeValuesOnly = typeof options.encodeValuesOnly === 'boolean' ? options.encodeValuesOnly : defaults.encodeValuesOnly;
-    if (typeof options.format === 'undefined') {
-        options.format = formats['default'];
-    } else if (!Object.prototype.hasOwnProperty.call(formats.formatters, options.format)) {
-        throw new TypeError('Unknown format option provided.');
-    }
-    var formatter = formats.formatters[options.format];
-    var objKeys;
-    var filter;
-
-    if (typeof options.filter === 'function') {
-        filter = options.filter;
-        obj = filter('', obj);
-    } else if (Array.isArray(options.filter)) {
-        filter = options.filter;
-        objKeys = filter;
-    }
-
-    var keys = [];
-
-    if (typeof obj !== 'object' || obj === null) {
-        return '';
-    }
-
-    var arrayFormat;
-    if (options.arrayFormat in arrayPrefixGenerators) {
-        arrayFormat = options.arrayFormat;
-    } else if ('indices' in options) {
-        arrayFormat = options.indices ? 'indices' : 'repeat';
-    } else {
-        arrayFormat = 'indices';
-    }
-
-    var generateArrayPrefix = arrayPrefixGenerators[arrayFormat];
-
-    if (!objKeys) {
-        objKeys = Object.keys(obj);
-    }
-
-    if (sort) {
-        objKeys.sort(sort);
-    }
-
-    for (var i = 0; i < objKeys.length; ++i) {
-        var key = objKeys[i];
-
-        if (skipNulls && obj[key] === null) {
-            continue;
-        }
-
-        keys = keys.concat(stringify(
-            obj[key],
-            key,
-            generateArrayPrefix,
-            strictNullHandling,
-            skipNulls,
-            encode ? encoder : null,
-            filter,
-            sort,
-            allowDots,
-            serializeDate,
-            formatter,
-            encodeValuesOnly
-        ));
-    }
-
-    var joined = keys.join(delimiter);
-    var prefix = options.addQueryPrefix === true ? '?' : '';
-
-    return joined.length > 0 ? prefix + joined : '';
-};
-
-
-/***/ }),
-/* 20 */
-/*!**************************************!*\
-  !*** ./node_modules/qs/lib/utils.js ***!
-  \**************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var has = Object.prototype.hasOwnProperty;
-
-var hexTable = (function () {
-    var array = [];
-    for (var i = 0; i < 256; ++i) {
-        array.push('%' + ((i < 16 ? '0' : '') + i.toString(16)).toUpperCase());
-    }
-
-    return array;
-}());
-
-var compactQueue = function compactQueue(queue) {
-    var obj;
-
-    while (queue.length) {
-        var item = queue.pop();
-        obj = item.obj[item.prop];
-
-        if (Array.isArray(obj)) {
-            var compacted = [];
-
-            for (var j = 0; j < obj.length; ++j) {
-                if (typeof obj[j] !== 'undefined') {
-                    compacted.push(obj[j]);
-                }
-            }
-
-            item.obj[item.prop] = compacted;
-        }
-    }
-
-    return obj;
-};
-
-var arrayToObject = function arrayToObject(source, options) {
-    var obj = options && options.plainObjects ? Object.create(null) : {};
-    for (var i = 0; i < source.length; ++i) {
-        if (typeof source[i] !== 'undefined') {
-            obj[i] = source[i];
-        }
-    }
-
-    return obj;
-};
-
-var merge = function merge(target, source, options) {
-    if (!source) {
-        return target;
-    }
-
-    if (typeof source !== 'object') {
-        if (Array.isArray(target)) {
-            target.push(source);
-        } else if (typeof target === 'object') {
-            if (options.plainObjects || options.allowPrototypes || !has.call(Object.prototype, source)) {
-                target[source] = true;
-            }
-        } else {
-            return [target, source];
-        }
-
-        return target;
-    }
-
-    if (typeof target !== 'object') {
-        return [target].concat(source);
-    }
-
-    var mergeTarget = target;
-    if (Array.isArray(target) && !Array.isArray(source)) {
-        mergeTarget = arrayToObject(target, options);
-    }
-
-    if (Array.isArray(target) && Array.isArray(source)) {
-        source.forEach(function (item, i) {
-            if (has.call(target, i)) {
-                if (target[i] && typeof target[i] === 'object') {
-                    target[i] = merge(target[i], item, options);
-                } else {
-                    target.push(item);
-                }
-            } else {
-                target[i] = item;
-            }
-        });
-        return target;
-    }
-
-    return Object.keys(source).reduce(function (acc, key) {
-        var value = source[key];
-
-        if (has.call(acc, key)) {
-            acc[key] = merge(acc[key], value, options);
-        } else {
-            acc[key] = value;
-        }
-        return acc;
-    }, mergeTarget);
-};
-
-var assign = function assignSingleSource(target, source) {
-    return Object.keys(source).reduce(function (acc, key) {
-        acc[key] = source[key];
-        return acc;
-    }, target);
-};
-
-var decode = function (str) {
-    try {
-        return decodeURIComponent(str.replace(/\+/g, ' '));
-    } catch (e) {
-        return str;
-    }
-};
-
-var encode = function encode(str) {
-    // This code was originally written by Brian White (mscdex) for the io.js core querystring library.
-    // It has been adapted here for stricter adherence to RFC 3986
-    if (str.length === 0) {
-        return str;
-    }
-
-    var string = typeof str === 'string' ? str : String(str);
-
-    var out = '';
-    for (var i = 0; i < string.length; ++i) {
-        var c = string.charCodeAt(i);
-
-        if (
-            c === 0x2D // -
-            || c === 0x2E // .
-            || c === 0x5F // _
-            || c === 0x7E // ~
-            || (c >= 0x30 && c <= 0x39) // 0-9
-            || (c >= 0x41 && c <= 0x5A) // a-z
-            || (c >= 0x61 && c <= 0x7A) // A-Z
-        ) {
-            out += string.charAt(i);
-            continue;
-        }
-
-        if (c < 0x80) {
-            out = out + hexTable[c];
-            continue;
-        }
-
-        if (c < 0x800) {
-            out = out + (hexTable[0xC0 | (c >> 6)] + hexTable[0x80 | (c & 0x3F)]);
-            continue;
-        }
-
-        if (c < 0xD800 || c >= 0xE000) {
-            out = out + (hexTable[0xE0 | (c >> 12)] + hexTable[0x80 | ((c >> 6) & 0x3F)] + hexTable[0x80 | (c & 0x3F)]);
-            continue;
-        }
-
-        i += 1;
-        c = 0x10000 + (((c & 0x3FF) << 10) | (string.charCodeAt(i) & 0x3FF));
-        out += hexTable[0xF0 | (c >> 18)]
-            + hexTable[0x80 | ((c >> 12) & 0x3F)]
-            + hexTable[0x80 | ((c >> 6) & 0x3F)]
-            + hexTable[0x80 | (c & 0x3F)];
-    }
-
-    return out;
-};
-
-var compact = function compact(value) {
-    var queue = [{ obj: { o: value }, prop: 'o' }];
-    var refs = [];
-
-    for (var i = 0; i < queue.length; ++i) {
-        var item = queue[i];
-        var obj = item.obj[item.prop];
-
-        var keys = Object.keys(obj);
-        for (var j = 0; j < keys.length; ++j) {
-            var key = keys[j];
-            var val = obj[key];
-            if (typeof val === 'object' && val !== null && refs.indexOf(val) === -1) {
-                queue.push({ obj: obj, prop: key });
-                refs.push(val);
-            }
-        }
-    }
-
-    return compactQueue(queue);
-};
-
-var isRegExp = function isRegExp(obj) {
-    return Object.prototype.toString.call(obj) === '[object RegExp]';
-};
-
-var isBuffer = function isBuffer(obj) {
-    if (obj === null || typeof obj === 'undefined') {
-        return false;
-    }
-
-    return !!(obj.constructor && obj.constructor.isBuffer && obj.constructor.isBuffer(obj));
-};
-
-module.exports = {
-    arrayToObject: arrayToObject,
-    assign: assign,
-    compact: compact,
-    decode: decode,
-    encode: encode,
-    isBuffer: isBuffer,
-    isRegExp: isRegExp,
-    merge: merge
-};
-
-
-/***/ }),
-/* 21 */
-/*!****************************************!*\
-  !*** ./node_modules/qs/lib/formats.js ***!
-  \****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var replace = String.prototype.replace;
-var percentTwenties = /%20/g;
-
-module.exports = {
-    'default': 'RFC3986',
-    formatters: {
-        RFC1738: function (value) {
-            return replace.call(value, percentTwenties, '+');
-        },
-        RFC3986: function (value) {
-            return value;
-        }
-    },
-    RFC1738: 'RFC1738',
-    RFC3986: 'RFC3986'
-};
-
-
-/***/ }),
-/* 22 */
-/*!**************************************!*\
-  !*** ./node_modules/qs/lib/parse.js ***!
-  \**************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(/*! ./utils */ 20);
-
-var has = Object.prototype.hasOwnProperty;
-
-var defaults = {
-    allowDots: false,
-    allowPrototypes: false,
-    arrayLimit: 20,
-    decoder: utils.decode,
-    delimiter: '&',
-    depth: 5,
-    parameterLimit: 1000,
-    plainObjects: false,
-    strictNullHandling: false
-};
-
-var parseValues = function parseQueryStringValues(str, options) {
-    var obj = {};
-    var cleanStr = options.ignoreQueryPrefix ? str.replace(/^\?/, '') : str;
-    var limit = options.parameterLimit === Infinity ? undefined : options.parameterLimit;
-    var parts = cleanStr.split(options.delimiter, limit);
-
-    for (var i = 0; i < parts.length; ++i) {
-        var part = parts[i];
-
-        var bracketEqualsPos = part.indexOf(']=');
-        var pos = bracketEqualsPos === -1 ? part.indexOf('=') : bracketEqualsPos + 1;
-
-        var key, val;
-        if (pos === -1) {
-            key = options.decoder(part, defaults.decoder);
-            val = options.strictNullHandling ? null : '';
-        } else {
-            key = options.decoder(part.slice(0, pos), defaults.decoder);
-            val = options.decoder(part.slice(pos + 1), defaults.decoder);
-        }
-        if (has.call(obj, key)) {
-            obj[key] = [].concat(obj[key]).concat(val);
-        } else {
-            obj[key] = val;
-        }
-    }
-
-    return obj;
-};
-
-var parseObject = function (chain, val, options) {
-    var leaf = val;
-
-    for (var i = chain.length - 1; i >= 0; --i) {
-        var obj;
-        var root = chain[i];
-
-        if (root === '[]') {
-            obj = [];
-            obj = obj.concat(leaf);
-        } else {
-            obj = options.plainObjects ? Object.create(null) : {};
-            var cleanRoot = root.charAt(0) === '[' && root.charAt(root.length - 1) === ']' ? root.slice(1, -1) : root;
-            var index = parseInt(cleanRoot, 10);
-            if (
-                !isNaN(index)
-                && root !== cleanRoot
-                && String(index) === cleanRoot
-                && index >= 0
-                && (options.parseArrays && index <= options.arrayLimit)
-            ) {
-                obj = [];
-                obj[index] = leaf;
-            } else {
-                obj[cleanRoot] = leaf;
-            }
-        }
-
-        leaf = obj;
-    }
-
-    return leaf;
-};
-
-var parseKeys = function parseQueryStringKeys(givenKey, val, options) {
-    if (!givenKey) {
-        return;
-    }
-
-    // Transform dot notation to bracket notation
-    var key = options.allowDots ? givenKey.replace(/\.([^.[]+)/g, '[$1]') : givenKey;
-
-    // The regex chunks
-
-    var brackets = /(\[[^[\]]*])/;
-    var child = /(\[[^[\]]*])/g;
-
-    // Get the parent
-
-    var segment = brackets.exec(key);
-    var parent = segment ? key.slice(0, segment.index) : key;
-
-    // Stash the parent if it exists
-
-    var keys = [];
-    if (parent) {
-        // If we aren't using plain objects, optionally prefix keys
-        // that would overwrite object prototype properties
-        if (!options.plainObjects && has.call(Object.prototype, parent)) {
-            if (!options.allowPrototypes) {
-                return;
-            }
-        }
-
-        keys.push(parent);
-    }
-
-    // Loop through children appending to the array until we hit depth
-
-    var i = 0;
-    while ((segment = child.exec(key)) !== null && i < options.depth) {
-        i += 1;
-        if (!options.plainObjects && has.call(Object.prototype, segment[1].slice(1, -1))) {
-            if (!options.allowPrototypes) {
-                return;
-            }
-        }
-        keys.push(segment[1]);
-    }
-
-    // If there's a remainder, just add whatever is left
-
-    if (segment) {
-        keys.push('[' + key.slice(segment.index) + ']');
-    }
-
-    return parseObject(keys, val, options);
-};
-
-module.exports = function (str, opts) {
-    var options = opts ? utils.assign({}, opts) : {};
-
-    if (options.decoder !== null && options.decoder !== undefined && typeof options.decoder !== 'function') {
-        throw new TypeError('Decoder has to be a function.');
-    }
-
-    options.ignoreQueryPrefix = options.ignoreQueryPrefix === true;
-    options.delimiter = typeof options.delimiter === 'string' || utils.isRegExp(options.delimiter) ? options.delimiter : defaults.delimiter;
-    options.depth = typeof options.depth === 'number' ? options.depth : defaults.depth;
-    options.arrayLimit = typeof options.arrayLimit === 'number' ? options.arrayLimit : defaults.arrayLimit;
-    options.parseArrays = options.parseArrays !== false;
-    options.decoder = typeof options.decoder === 'function' ? options.decoder : defaults.decoder;
-    options.allowDots = typeof options.allowDots === 'boolean' ? options.allowDots : defaults.allowDots;
-    options.plainObjects = typeof options.plainObjects === 'boolean' ? options.plainObjects : defaults.plainObjects;
-    options.allowPrototypes = typeof options.allowPrototypes === 'boolean' ? options.allowPrototypes : defaults.allowPrototypes;
-    options.parameterLimit = typeof options.parameterLimit === 'number' ? options.parameterLimit : defaults.parameterLimit;
-    options.strictNullHandling = typeof options.strictNullHandling === 'boolean' ? options.strictNullHandling : defaults.strictNullHandling;
-
-    if (str === '' || str === null || typeof str === 'undefined') {
-        return options.plainObjects ? Object.create(null) : {};
-    }
-
-    var tempObj = typeof str === 'string' ? parseValues(str, options) : str;
-    var obj = options.plainObjects ? Object.create(null) : {};
-
-    // Iterate over the keys and setup the new object
-
-    var keys = Object.keys(tempObj);
-    for (var i = 0; i < keys.length; ++i) {
-        var key = keys[i];
-        var newObj = parseKeys(key, tempObj[key], options);
-        obj = utils.merge(obj, newObj, options);
-    }
-
-    return utils.compact(obj);
-};
-
-
-/***/ }),
-/* 23 */
-/*!****************************************************!*\
-  !*** D:/联合利众/动态验证/node_modules/jsotp/lib/jsotp.js ***!
-  \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-exports.Util = exports.Base32 = exports.TOTP = exports.HOTP = undefined;
-
-var _totp = __webpack_require__(/*! ./totp */ 24);
-
-var _hotp = __webpack_require__(/*! ./hotp */ 30);
-
-var _base = __webpack_require__(/*! ./base32 */ 26);
-
-var _util = __webpack_require__(/*! ./util */ 28);
-
-/* ＊
-                                * Generate and return HOTP object
-                                *
-                                * @param {secret}
-                                * @type {String}
-                                * @desc random base32-encoded key to generate OTP.
-                                *
-                                * @return {OTP}
-                                */
-/*
-                                    *  @project  : jsotp
-                                    *  @author   : Gin (gin.lance.inside@hotmail.com)
-                                    *  @link     : https://github.com/LanceGin/jsotp
-                                    *  @Disc     : a node module to generate and verify one-time passwords
-                                    */
-
-function hotp_gen(secret) {
-  var digits = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 6;
-  var digest = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'SHA-1';
-
-  var hotp = new _hotp.HOTP(secret, digits, digest);
-  return hotp;
-}
-
-/* ＊
-   * Generate and return TOTP object
-   *
-   * @param {secret}
-   * @type {String}
-   * @desc random base32-encoded key to generate OTP.
-   *
-   * @param {interval}
-   * @type {int}
-   * @desc the time interval in seconds for OTP.
-   * This defaults to 30.
-   *
-   * @return {OTP}
-   */
-function totp_gen(secret) {
-  var interval = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 30;
-
-  var totp = new _totp.TOTP(secret, interval);
-  return totp;
-}
-
-exports.HOTP = hotp_gen;
-exports.TOTP = totp_gen;
-exports.Base32 = _base.Base32;
-exports.Util = _util.Util;
-
-/***/ }),
-/* 24 */
-/*!***************************************************!*\
-  !*** D:/联合利众/动态验证/node_modules/jsotp/lib/totp.js ***!
-  \***************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-exports.TOTP = undefined;
-
-var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
-
-var _get = function get(object, property, receiver) {if (object === null) object = Function.prototype;var desc = Object.getOwnPropertyDescriptor(object, property);if (desc === undefined) {var parent = Object.getPrototypeOf(object);if (parent === null) {return undefined;} else {return get(parent, property, receiver);}} else if ("value" in desc) {return desc.value;} else {var getter = desc.get;if (getter === undefined) {return undefined;}return getter.call(receiver);}};
-
-var _otp = __webpack_require__(/*! ./otp */ 25);
-
-var _util = __webpack_require__(/*! ./util */ 28);
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
-
-function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
-
-function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          *  @module   : TOTP module to generate and verify TOTP password
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          *  @author   : Gin (gin.lance.inside@hotmail.com)
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          */
-
-var TOTP = exports.TOTP = function (_OTP) {
-  _inherits(TOTP, _OTP);
-
-  /* ＊
-                            * @param {secret}
-                            * @type {String}
-                            * @desc random base32-encoded key to generate OTP.
-                            *
-                            * @param {interval}
-                            * @type {int}
-                            * @desc the time interval in seconds for OTP.
-                            * This defaults to 30.
-                            *
-                            * @return {OTP}
-                            */
-  function TOTP(secret) {
-    var interval = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 30;
-
-    _classCallCheck(this, TOTP);
-
-    var _this = _possibleConstructorReturn(this, (TOTP.__proto__ || Object.getPrototypeOf(TOTP)).call(this, secret));
-
-    _this.interval = interval;
-    return _this;
-  }
-
-  /* ＊
-       * Generate the OTP with current time.
-       *
-       * @return {OTP}
-       *
-       * @example
-       * ```javascript
-       * let totp = jsotp.TOTP('BASE32ENCODEDSECRET');
-       * totp.now(); // => 432143
-       * ```
-       */
-
-
-  _createClass(TOTP, [{
-    key: 'now',
-    value: function now() {
-      // get now time string
-      var now = _util.Util.timecode(new Date(), this.interval);
-
-      // generate the one-time password
-      var digit = _get(TOTP.prototype.__proto__ || Object.getPrototypeOf(TOTP.prototype), 'generate_otp', this).call(this, now);
-      return digit;
-    }
-
-    /* ＊
-         * Verifies the OTP passed in against the current time OTP.
-         *
-         * @param {otp}
-         * @type {String}
-         * @desc the OTP waiting for checking
-         *
-         * @param {time}
-         * @type {int or datetime}
-         * @desc Time to check OTP at (defaults to now)
-         *
-         * @return {Boolean}
-         *
-         * @example
-         * ```javascript
-         * let totp = jsotp.TOTP('BASE32ENCODEDSECRET');
-         * totp.now(); // => 432143
-         * // Verify for current time
-         * totp.verify(432143); // => true
-         * // Verify after 30s
-         * totp.verify(432143); // => false
-         * ```
-         */ },
-
-  {
-    key: 'verify',
-    value: function verify(otp) {
-      var time = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-
-      var otp_time = void 0;
-
-      if (time == null) {
-        time = new Date();
-      }
-      otp_time = _get(TOTP.prototype.__proto__ || Object.getPrototypeOf(TOTP.prototype), 'generate_otp', this).call(this, _util.Util.timecode(time, this.interval));
-
-      if (typeof otp === 'number') {
-        otp = otp.toString();
-      }
-
-      if (otp === otp_time) {
-        return true;
-      }
-      return false;
-    }
-
-    /* ＊
-         * Generate a url with TOTP instance.
-         *
-         * @param {issuer}
-         * @type {String}
-         * @desc maybe it is the Service name
-         *
-         * @return {String}
-         */ },
-
-  {
-    key: 'url_gen',
-    value: function url_gen() {
-      var issuer = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-
-      return _get(TOTP.prototype.__proto__ || Object.getPrototypeOf(TOTP.prototype), 'url_gen', this).call(this, issuer, 'totp');
-    } }]);
-
-
-  return TOTP;
-}(_otp.OTP);
-
-/***/ }),
-/* 25 */
-/*!**************************************************!*\
-  !*** D:/联合利众/动态验证/node_modules/jsotp/lib/otp.js ***!
-  \**************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-exports.OTP = undefined;
-
-var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
-
-var _base = __webpack_require__(/*! ./base32 */ 26);
-
-var _util = __webpack_require__(/*! ./util */ 28);
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
-
-/*
-                                                                                                                                                       *  @module   : OTP module to generate the password
-                                                                                                                                                       *  @author   : Gin (gin.lance.inside@hotmail.com)
-                                                                                                                                                       */
-var jsSHA = __webpack_require__(/*! jssha */ 29);
-
-var OTP = exports.OTP = function () {
-  /* ＊
-                                        * This constructor will create OTP instance.
-                                        *
-                                        * @param {secret}
-                                        * @type {String}
-                                        * @desc random base32-encoded key, it is the
-                                        * key that be used to verify.
-                                        *
-                                        * @param {digits}
-                                        * @type {int}
-                                        * @desc the length of the one-time password, default to be 6
-                                        *
-                                        * @param {digest}
-                                        * @type {String}
-                                        * @desc the key that be used to do HMAC encoding, dedault and
-                                        * only to be "sha1"
-                                        *
-                                        */
-  function OTP(secret) {
-    var digits = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 6;
-    var digest = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'SHA-1';
-
-    _classCallCheck(this, OTP);
-
-    this.secret = secret;
-    this.digits = digits;
-    this.digest = digest;
-  }
-
-  /* ＊
-       * When class HOTP or TOTP pass the input params to this
-       * function, it will generate the OTP object with params,
-       * the params may be counter or time.
-       *
-       * @param {input}
-       * @type {int}
-       * @desc input params to generate OTP object, maybe
-       * counter or time.
-       *
-       * @return {OTP}
-       */
-
-
-  _createClass(OTP, [{
-    key: 'generate_otp',
-    value: function generate_otp(input) {
-      // generate HMAC object with SHA-1 digest
-      var hmacObj = new jsSHA(this.digest, 'BYTES');
-      // set hmac token
-      hmacObj.setHMACKey(_util.Util.byte_secret(this.secret), 'BYTES');
-      // hamc encode the input param
-      hmacObj.update(_util.Util.int_to_bytestring(input));
-
-      // get HMAC ans
-      var hmac = hmacObj.getHMAC('BYTES');
-
-      // transfer hmac to Array
-      var hmac_a = hmac.split('');
-
-      // calculate the init offset
-      var offset = hmac_a[hmac_a.length - 1].charCodeAt() & 0xf;
-
-      // calculate the code
-      var code = (hmac_a[offset].charCodeAt() & 0x7f) << 24 | (hmac_a[offset + 1].charCodeAt() & 0xff) << 16 | (hmac_a[offset + 2].charCodeAt() & 0xff) << 8 | hmac_a[offset + 3].charCodeAt() & 0xff;
-
-      // get the init str code
-      var str_code = (code % Math.pow(10, this.digits)).toString();
-
-      // rjust format
-      str_code = _util.Util.rjust(str_code, this.digits);
-
-      return str_code;
-    }
-
-    /* ＊
-         * Generate a url with TOTP or HOTP instance.
-         *
-         * @param {issuer}
-         * @type {String}
-         * @desc maybe it is the Service name
-         *
-         * @param {type}
-         * @type {String}
-         * @desc type of OTP instance
-         *
-         * @return {String}
-         */ },
-
-  {
-    key: 'url_gen',
-    value: function url_gen(issuer, type) {
-      return 'otpauth://' + type + '/SK?secret=' + this.secret + '&issuer=' + issuer;
-    } }]);
-
-
-  return OTP;
-}();
-
-/***/ }),
-/* 26 */
-/*!*****************************************************!*\
-  !*** D:/联合利众/动态验证/node_modules/jsotp/lib/base32.js ***!
-  \*****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-
-var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
-
-/*
-                                                                                                                                                       *  @module   : BASE32 module to generate the random b32 key
-                                                                                                                                                       *              and decode the secret.
-                                                                                                                                                       *  @author   : Gin (gin.lance.inside@hotmail.com)
-                                                                                                                                                       */
-
-var nibbler = __webpack_require__(/*! ./nibbler/nibbler */ 27);
-
-var Base32 = exports.Base32 = function () {
-  function Base32() {
-    _classCallCheck(this, Base32);
-  }
-
-  _createClass(Base32, null, [{
-    key: 'decode',
-
-    /* ＊
-                      * Base32 decode function
-                      *
-                      * @param {secret}
-                      * @type {String}
-                      * @desc input string
-                      *
-                      * @return {String}
-                      */
-    value: function decode(secret) {
-      return nibbler.b32decode(secret);
-    }
-
-    /* ＊
-         * Base32 generate random b32 encoded string function
-         *
-         * @param {length}
-         * @type {int}
-         * @desc the length of random b32 encoded string
-         *
-         * @return {String}
-         */ },
-
-  {
-    key: 'random_gen',
-    value: function random_gen() {
-      var length = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 16;
-
-      var random_str = Math.random().toString(36);
-      random_str = nibbler.b32encode(random_str);
-
-      return random_str.substring(0, length);
-    } }]);
-
-
-  return Base32;
-}();
-
-/***/ }),
-/* 27 */
-/*!**************************************************************!*\
-  !*** D:/联合利众/动态验证/node_modules/jsotp/lib/nibbler/nibbler.js ***!
-  \**************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/*
-              Adapted for Node.js by Matt Robenolt
-              Reference: http://www.tumuski.com/2010/04/nibbler/
-              */
-
-var Nibbler = function Nibbler(options) {
-  var construct = void 0,
-
-
-  // options
-  pad = void 0,
-  dataBits = void 0,
-  codeBits = void 0,
-  keyString = void 0,
-  arrayData = void 0,
-
-
-  // private instance variables
-  mask = void 0,
-  group = void 0,
-  max = void 0,
-
-
-  // private methods
-  gcd = void 0,
-  translate = void 0,
-
-
-  // public methods
-  encode = void 0,
-  decode = void 0;
-
-  // pseudo-constructor
-  construct = function construct() {
-    var i = void 0,
-    mag = void 0,
-    prev = void 0;
-
-    // options
-    pad = options.pad || '';
-    dataBits = options.dataBits;
-    codeBits = options.codeBits;
-    keyString = options.keyString;
-    arrayData = options.arrayData;
-
-    // bitmasks
-    mag = Math.max(dataBits, codeBits);
-    prev = 0;
-    mask = [];
-    for (i = 0; i < mag; i += 1) {
-      mask.push(prev);
-      prev += prev + 1;
-    }
-    max = prev;
-
-    // ouput code characters in multiples of this number
-    group = dataBits / gcd(dataBits, codeBits);
-  };
-
-  // greatest common divisor
-  gcd = function gcd(a, b) {
-    var t = void 0;
-    while (b !== 0) {
-      t = b;
-      b = a % b;
-      a = t;
-    }
-    return a;
-  };
-
-  // the re-coder
-  translate = function translate(input, bitsIn, bitsOut, decoding) {
-    var i = void 0,
-    len = void 0,
-    chr = void 0,
-    byteIn = void 0,
-    buffer = void 0,
-    size = void 0,
-    output = void 0,
-    write = void 0;
-
-    // append a byte to the output
-    write = function write(n) {
-      if (!decoding) {
-        output.push(keyString.charAt(n));
-      } else if (arrayData) {
-        output.push(n);
-      } else {
-        output.push(String.fromCharCode(n));
-      }
-    };
-
-    buffer = 0;
-    size = 0;
-    output = [];
-
-    len = input.length;
-    for (i = 0; i < len; i += 1) {
-      // the new size the buffer will be after adding these bits
-      size += bitsIn;
-
-      // read a character
-      if (decoding) {
-        // decode it
-        chr = input.charAt(i);
-        byteIn = keyString.indexOf(chr);
-        if (chr === pad) {
-          break;
-        } else if (byteIn < 0) {
-          throw 'the character "' + chr + '" is not a member of ' + keyString;
-        }
-      } else {
-        if (arrayData) {
-          byteIn = input[i];
-        } else {
-          byteIn = input.charCodeAt(i);
-        }
-        if ((byteIn | max) !== max) {
-          throw byteIn + ' is outside the range 0-' + max;
-        }
-      }
-
-      // shift the buffer to the left and add the new bits
-      buffer = buffer << bitsIn | byteIn;
-
-      // as long as there's enough in the buffer for another output...
-      while (size >= bitsOut) {
-        // the new size the buffer will be after an output
-        size -= bitsOut;
-
-        // output the part that lies to the left of that number of bits
-        // by shifting the them to the right
-        write(buffer >> size);
-
-        // remove the bits we wrote from the buffer
-        // by applying a mask with the new size
-        buffer &= mask[size];
-      }
-    }
-
-    // If we're encoding and there's input left over, pad the output.
-    // Otherwise, leave the extra bits off, 'cause they themselves are padding
-    if (!decoding && size > 0) {
-      // flush the buffer
-      write(buffer << bitsOut - size);
-
-      // add padding keyString for the remainder of the group
-      len = output.length % group;
-      for (i = 0; i < len; i += 1) {
-        output.push(pad);
-      }
-    }
-
-    // string!
-    return arrayData && decoding ? output : output.join('');
-  };
-
-  /**
-        * Encode.  Input and output are strings.
-        */
-  encode = function encode(input) {
-    return translate(input, dataBits, codeBits, false);
-  };
-
-  /**
-        * Decode.  Input and output are strings.
-        */
-  decode = function decode(input) {
-    return translate(input, codeBits, dataBits, true);
-  };
-
-  this.encode = encode;
-  this.decode = decode;
-  construct();
-};
-
-var Base32 = new Nibbler({
-  dataBits: 8,
-  codeBits: 5,
-  keyString: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567',
-  pad: '=' });
-
-var Base64 = new Nibbler({
-  dataBits: 8,
-  codeBits: 6,
-  keyString: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
-  pad: '=' });
-
-
-exports.Nibbler = Nibbler;
-exports.b32encode = Base32.encode;
-exports.b32decode = Base32.decode;
-exports.b64encode = Base64.encode;
-exports.b64decode = Base64.decode;
-
-/***/ }),
-/* 28 */
-/*!***************************************************!*\
-  !*** D:/联合利众/动态验证/node_modules/jsotp/lib/util.js ***!
-  \***************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-exports.Util = undefined;
-
-var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}(); /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       *  @module   : Util module to process the datas.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       *  @author   : Gin (gin.lance.inside@hotmail.com)
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       */
-
-var _base = __webpack_require__(/*! ./base32 */ 26);
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
-
-var Util = exports.Util = function () {
-  function Util() {
-    _classCallCheck(this, Util);
-  }
-
-  _createClass(Util, null, [{
-    key: 'rjust',
-
-    /* ＊
-                     * Util rjust number with 0
-                     *
-                     * @param {num}
-                     * @type {int}
-                     * @desc input number
-                     *
-                     * @param {n}
-                     * @type {int}
-                     * @desc wanted length
-                     *
-                     * @return {String}
-                     */
-    value: function rjust(num, n) {
-      var numTmp = num;
-      var len = numTmp.toString().length;
-
-      while (len < n) {
-        numTmp = '0' + numTmp;
-        len += 1;
-      }
-
-      return numTmp;
-    }
-
-    /* ＊
-         * Util rjust array with ""
-         *
-         * @param {arr}
-         * @type {Array}
-         * @desc input array
-         *
-         * @param {n}
-         * @type {int}
-         * @desc wanted length
-         *
-         * @return {BYTES}
-         */ },
-
-  {
-    key: 'arr_rjust',
-    value: function arr_rjust(arr, n) {
-      var arrTmp = arr;
-      if (n <= arrTmp.length) {
-        arrTmp = arrTmp.splice(arrTmp.length - 1 - n);
-        return arrTmp;
-      }
-      var diff = n - arrTmp.length;
-      for (var i = 0; i < diff; i += 1) {
-        arrTmp.unshift(String.fromCharCode(0));
-      }
-      return arrTmp;
-    }
-
-    /* ＊
-         * Base32 decode the init secret
-         *
-         * @param {secret}
-         * @type {String}
-         * @desc input param, the init secret
-         *
-         * @return {String}
-         */ },
-
-  {
-    key: 'byte_secret',
-    value: function byte_secret(secret) {
-      return _base.Base32.decode(secret.toUpperCase());
-    }
-
-    /* ＊
-         * transfer the int type to BYTES type
-         *
-         * @param {input}
-         * @type {int}
-         * @desc input param, maybe counter or time
-         *
-         * @return {BYTES}
-         */ },
-
-  {
-    key: 'int_to_bytestring',
-    value: function int_to_bytestring(input) {
-      var padding = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 8;
-
-      var inputTmp = input;
-      var result = [];
-
-      while (inputTmp !== 0) {
-        result.push(String.fromCharCode(inputTmp & 0xFF));
-        inputTmp >>= 8;
-      }
-
-      result = result.reverse();
-      result = Util.arr_rjust(result, padding).join('');
-
-      return result;
-    }
-
-    /* ＊
-         * format the time string to int
-         *
-         * @param {time}
-         * @type {Date}
-         * @desc the time need to be format
-         *
-         * @param {interval}
-         * @type {Int}
-         * @desc interval means the one-time password's life,
-         * default to be 30.
-         *
-         * @return {Int}
-         */ },
-
-  {
-    key: 'timecode',
-    value: function timecode(time, interval) {
-      var timeStr = Date.parse(time).toString();
-
-      // fotmat the time, the ms is not needed.
-      var formatTime = timeStr.substring(0, timeStr.length - 3);
-
-      return parseInt(parseInt(formatTime) / interval);
-    } }]);
-
-
-  return Util;
-}();
-
-/***/ }),
-/* 29 */
-/*!**************************************************!*\
-  !*** D:/联合利众/动态验证/node_modules/jssha/src/sha.js ***!
-  \**************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-var __WEBPACK_AMD_DEFINE_RESULT__;/*
- A JavaScript implementation of the SHA family of hashes, as
- defined in FIPS PUB 180-4 and FIPS PUB 202, as well as the corresponding
- HMAC implementation as defined in FIPS PUB 198a
-
- Copyright 2008-2020 Brian Turek, 1998-2009 Paul Johnston & Contributors
- Distributed under the BSD License
- See http://caligatio.github.com/jsSHA/ for more information
-*/
-(function (aa) {function C(d, b, a) {var h = 0,k = [],m = 0,g,l,c,f,n,q,u,r,I = !1,v = [],x = [],t,y = !1,z = !1,w = -1;a = a || {};g = a.encoding || "UTF8";t = a.numRounds || 1;if (t !== parseInt(t, 10) || 1 > t) throw Error("numRounds must a integer >= 1");if ("SHA-1" === d) n = 512, q = K, u = ba, f = 160, r = function r(b) {return b.slice();};else if (0 === d.lastIndexOf("SHA-", 0)) {if (q = function q(b, h) {return L(b, h, d);}, u = function u(b, h, k, a) {var e, f;if ("SHA-224" === d || "SHA-256" === d) e = (h + 65 >>> 9 << 4) + 15, f = 16;else if ("SHA-384" === d || "SHA-512" === d) e = (h + 129 >>> 10 <<
-        5) + 31, f = 32;else throw Error("Unexpected error in SHA-2 implementation");for (; b.length <= e;) {b.push(0);}b[h >>> 5] |= 128 << 24 - h % 32;h = h + k;b[e] = h & 4294967295;b[e - 1] = h / 4294967296 | 0;k = b.length;for (h = 0; h < k; h += f) {a = L(b.slice(h, h + f), a, d);}if ("SHA-224" === d) b = [a[0], a[1], a[2], a[3], a[4], a[5], a[6]];else if ("SHA-256" === d) b = a;else if ("SHA-384" === d) b = [a[0].a, a[0].b, a[1].a, a[1].b, a[2].a, a[2].b, a[3].a, a[3].b, a[4].a, a[4].b, a[5].a, a[5].b];else if ("SHA-512" === d) b = [a[0].a, a[0].b, a[1].a, a[1].b, a[2].a, a[2].b, a[3].a, a[3].b, a[4].a,
-        a[4].b, a[5].a, a[5].b, a[6].a, a[6].b, a[7].a, a[7].b];else throw Error("Unexpected error in SHA-2 implementation");return b;}, r = function r(b) {return b.slice();}, "SHA-224" === d) n = 512, f = 224;else if ("SHA-256" === d) n = 512, f = 256;else if ("SHA-384" === d) n = 1024, f = 384;else if ("SHA-512" === d) n = 1024, f = 512;else throw Error("Chosen SHA variant is not supported");} else if (0 === d.lastIndexOf("SHA3-", 0) || 0 === d.lastIndexOf("SHAKE", 0)) {var F = 6;q = D;r = function r(b) {var d = [],a;for (a = 0; 5 > a; a += 1) {d[a] = b[a].slice();}return d;};w = 1;if ("SHA3-224" ===
-      d) n = 1152, f = 224;else if ("SHA3-256" === d) n = 1088, f = 256;else if ("SHA3-384" === d) n = 832, f = 384;else if ("SHA3-512" === d) n = 576, f = 512;else if ("SHAKE128" === d) n = 1344, f = -1, F = 31, z = !0;else if ("SHAKE256" === d) n = 1088, f = -1, F = 31, z = !0;else throw Error("Chosen SHA variant is not supported");u = function u(b, d, a, h, k) {a = n;var e = F,f,g = [],m = a >>> 5,l = 0,c = d >>> 5;for (f = 0; f < c && d >= a; f += m) {h = D(b.slice(f, f + m), h), d -= a;}b = b.slice(f);for (d %= a; b.length < m;) {b.push(0);}f = d >>> 3;b[f >> 2] ^= e << f % 4 * 8;b[m - 1] ^= 2147483648;for (h = D(b, h); 32 * g.length < k;) {b = h[l %
-          5][l / 5 | 0];g.push(b.b);if (32 * g.length >= k) break;g.push(b.a);l += 1;0 === 64 * l % a && (D(null, h), l = 0);}return g;};} else throw Error("Chosen SHA variant is not supported");c = M(b, g, w);l = A(d);this.setHMACKey = function (b, a, k) {var e;if (!0 === I) throw Error("HMAC key already set");if (!0 === y) throw Error("Cannot set HMAC key after calling update");if (!0 === z) throw Error("SHAKE is not supported for HMAC");g = (k || {}).encoding || "UTF8";a = M(a, g, w)(b);b = a.binLen;a = a.value;e = n >>> 3;k = e / 4 - 1;for (e < b / 8 && (a = u(a, b, 0, A(d), f)); a.length <=
-      k;) {a.push(0);}for (b = 0; b <= k; b += 1) {v[b] = a[b] ^ 909522486, x[b] = a[b] ^ 1549556828;}l = q(v, l);h = n;I = !0;};this.update = function (b) {var d,a,e,f = 0,g = n >>> 5;d = c(b, k, m);b = d.binLen;a = d.value;d = b >>> 5;for (e = 0; e < d; e += g) {f + n <= b && (l = q(a.slice(e, e + g), l), f += n);}h += f;k = a.slice(f >>> 5);m = b % n;y = !0;};this.getHash = function (b, a) {var e, g, c, n;if (!0 === I) throw Error("Cannot call getHash after setting HMAC key");c = N(a);if (!0 === z) {if (-1 === c.shakeLen) throw Error("shakeLen must be specified in options");f = c.shakeLen;}switch (b) {case "HEX":e = function e(b) {return O(b,
-            f, w, c);};break;case "B64":e = function e(b) {return P(b, f, w, c);};break;case "BYTES":e = function e(b) {return Q(b, f, w);};break;case "ARRAYBUFFER":try {g = new ArrayBuffer(0);} catch (p) {throw Error("ARRAYBUFFER not supported by this environment");}e = function e(b) {return R(b, f, w);};break;case "UINT8ARRAY":try {g = new Uint8Array(0);} catch (p) {throw Error("UINT8ARRAY not supported by this environment");}e = function e(b) {return S(b, f, w);};break;default:throw Error("format must be HEX, B64, BYTES, ARRAYBUFFER, or UINT8ARRAY");}n = u(k.slice(),
-      m, h, r(l), f);for (g = 1; g < t; g += 1) {!0 === z && 0 !== f % 32 && (n[n.length - 1] &= 16777215 >>> 24 - f % 32), n = u(n, f, 0, A(d), f);}return e(n);};this.getHMAC = function (b, a) {var e, g, c, p;if (!1 === I) throw Error("Cannot call getHMAC without first setting HMAC key");c = N(a);switch (b) {case "HEX":e = function e(b) {return O(b, f, w, c);};break;case "B64":e = function e(b) {return P(b, f, w, c);};break;case "BYTES":e = function e(b) {return Q(b, f, w);};break;case "ARRAYBUFFER":try {e = new ArrayBuffer(0);} catch (v) {throw Error("ARRAYBUFFER not supported by this environment");
-          }e = function e(b) {return R(b, f, w);};break;case "UINT8ARRAY":try {e = new Uint8Array(0);} catch (v) {throw Error("UINT8ARRAY not supported by this environment");}e = function e(b) {return S(b, f, w);};break;default:throw Error("outputFormat must be HEX, B64, BYTES, ARRAYBUFFER, or UINT8ARRAY");}g = u(k.slice(), m, h, r(l), f);p = q(x, A(d));p = u(g, f, n, p, f);return e(p);};}function a(d, b) {this.a = d;this.b = b;}function T(d, b, a, h) {var k, m, g, l, c;b = b || [0];a = a || 0;m = a >>> 3;c = -1 === h ? 3 : 0;for (k = 0; k < d.length; k += 1) {l = k + m, g = l >>> 2, b.length <= g && b.push(0),
-      b[g] |= d[k] << 8 * (c + l % 4 * h);}return { value: b, binLen: 8 * d.length + a };}function O(a, b, e, h) {var k = "";b /= 8;var m, g, c;c = -1 === e ? 3 : 0;for (m = 0; m < b; m += 1) {g = a[m >>> 2] >>> 8 * (c + m % 4 * e), k += "0123456789abcdef".charAt(g >>> 4 & 15) + "0123456789abcdef".charAt(g & 15);}return h.outputUpper ? k.toUpperCase() : k;}function P(a, b, e, h) {var k = "",m = b / 8,g,c,p,f;f = -1 === e ? 3 : 0;for (g = 0; g < m; g += 3) {for (c = g + 1 < m ? a[g + 1 >>> 2] : 0, p = g + 2 < m ? a[g + 2 >>> 2] : 0, p = (a[g >>> 2] >>> 8 * (f + g % 4 * e) & 255) << 16 | (c >>> 8 * (f + (g + 1) % 4 * e) & 255) << 8 | p >>> 8 * (f + (g + 2) % 4 * e) & 255, c = 0; 4 > c; c += 1) {8 * g + 6 * c <= b ? k +=
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".charAt(p >>> 6 * (3 - c) & 63) : k += h.b64Pad;}}return k;}function Q(a, b, e) {var h = "";b /= 8;var k, c, g;g = -1 === e ? 3 : 0;for (k = 0; k < b; k += 1) {c = a[k >>> 2] >>> 8 * (g + k % 4 * e) & 255, h += String.fromCharCode(c);}return h;}function R(a, b, e) {b /= 8;var h,k = new ArrayBuffer(b),c,g;g = new Uint8Array(k);c = -1 === e ? 3 : 0;for (h = 0; h < b; h += 1) {g[h] = a[h >>> 2] >>> 8 * (c + h % 4 * e) & 255;}return k;}function S(a, b, e) {b /= 8;var h,k = new Uint8Array(b),c;c = -1 === e ? 3 : 0;for (h = 0; h < b; h += 1) {k[h] = a[h >>> 2] >>> 8 * (c + h % 4 * e) &
-      255;}return k;}function N(a) {var b = { outputUpper: !1, b64Pad: "=", shakeLen: -1 };a = a || {};b.outputUpper = a.outputUpper || !1;!0 === a.hasOwnProperty("b64Pad") && (b.b64Pad = a.b64Pad);if (!0 === a.hasOwnProperty("shakeLen")) {if (0 !== a.shakeLen % 8) throw Error("shakeLen must be a multiple of 8");b.shakeLen = a.shakeLen;}if ("boolean" !== typeof b.outputUpper) throw Error("Invalid outputUpper formatting option");if ("string" !== typeof b.b64Pad) throw Error("Invalid b64Pad formatting option");return b;}function M(a, b, e) {switch (b) {case "UTF8":case "UTF16BE":case "UTF16LE":break;
-      default:throw Error("encoding must be UTF8, UTF16BE, or UTF16LE");}switch (a) {case "HEX":a = function a(b, _a, d) {var g = b.length,c,p,f,n,q,u;if (0 !== g % 2) throw Error("String of HEX type must be in byte increments");_a = _a || [0];d = d || 0;q = d >>> 3;u = -1 === e ? 3 : 0;for (c = 0; c < g; c += 2) {p = parseInt(b.substr(c, 2), 16);if (isNaN(p)) throw Error("String of HEX type contains invalid characters");n = (c >>> 1) + q;for (f = n >>> 2; _a.length <= f;) {_a.push(0);}_a[f] |= p << 8 * (u + n % 4 * e);}return { value: _a, binLen: 4 * g + d };};break;case "TEXT":a = function a(_a2, d, c) {var g,
-          l,p = 0,f,n,q,u,r,t;d = d || [0];c = c || 0;q = c >>> 3;if ("UTF8" === b) for (t = -1 === e ? 3 : 0, f = 0; f < _a2.length; f += 1) {for (g = _a2.charCodeAt(f), l = [], 128 > g ? l.push(g) : 2048 > g ? (l.push(192 | g >>> 6), l.push(128 | g & 63)) : 55296 > g || 57344 <= g ? l.push(224 | g >>> 12, 128 | g >>> 6 & 63, 128 | g & 63) : (f += 1, g = 65536 + ((g & 1023) << 10 | _a2.charCodeAt(f) & 1023), l.push(240 | g >>> 18, 128 | g >>> 12 & 63, 128 | g >>> 6 & 63, 128 | g & 63)), n = 0; n < l.length; n += 1) {r = p + q;for (u = r >>> 2; d.length <= u;) {d.push(0);}d[u] |= l[n] << 8 * (t + r % 4 * e);p += 1;}} else if ("UTF16BE" === b || "UTF16LE" === b) for (t = -1 === e ? 2 : 0, l = "UTF16LE" ===
-          b && 1 !== e || "UTF16LE" !== b && 1 === e, f = 0; f < _a2.length; f += 1) {g = _a2.charCodeAt(f);!0 === l && (n = g & 255, g = n << 8 | g >>> 8);r = p + q;for (u = r >>> 2; d.length <= u;) {d.push(0);}d[u] |= g << 8 * (t + r % 4 * e);p += 2;}return { value: d, binLen: 8 * p + c };};break;case "B64":a = function a(b, _a3, d) {var c = 0,l,p,f,n,q,u,r,t;if (-1 === b.search(/^[a-zA-Z0-9=+\/]+$/)) throw Error("Invalid character in base-64 string");p = b.indexOf("=");b = b.replace(/\=/g, "");if (-1 !== p && p < b.length) throw Error("Invalid '=' found in base-64 string");_a3 = _a3 || [0];d = d || 0;u = d >>> 3;t = -1 === e ? 3 : 0;for (p =
-          0; p < b.length; p += 4) {q = b.substr(p, 4);for (f = n = 0; f < q.length; f += 1) {l = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".indexOf(q.charAt(f)), n |= l << 18 - 6 * f;}for (f = 0; f < q.length - 1; f += 1) {r = c + u;for (l = r >>> 2; _a3.length <= l;) {_a3.push(0);}_a3[l] |= (n >>> 16 - 8 * f & 255) << 8 * (t + r % 4 * e);c += 1;}}return { value: _a3, binLen: 8 * c + d };};break;case "BYTES":a = function a(b, _a4, d) {var c, l, p, f, n, q;_a4 = _a4 || [0];d = d || 0;p = d >>> 3;q = -1 === e ? 3 : 0;for (l = 0; l < b.length; l += 1) {c = b.charCodeAt(l), n = l + p, f = n >>> 2, _a4.length <= f && _a4.push(0), _a4[f] |= c << 8 * (q + n % 4 * e);}return { value: _a4,
-            binLen: 8 * b.length + d };};break;case "ARRAYBUFFER":try {a = new ArrayBuffer(0);} catch (h) {throw Error("ARRAYBUFFER not supported by this environment");}a = function a(b, _a5, d) {return T(new Uint8Array(b), _a5, d, e);};break;case "UINT8ARRAY":try {a = new Uint8Array(0);} catch (h) {throw Error("UINT8ARRAY not supported by this environment");}a = function a(b, _a6, d) {return T(b, _a6, d, e);};break;default:throw Error("format must be HEX, TEXT, B64, BYTES, ARRAYBUFFER, or UINT8ARRAY");}return a;}function y(a, b) {return a << b | a >>> 32 - b;}function U(d,
-  b) {return 32 < b ? (b -= 32, new a(d.b << b | d.a >>> 32 - b, d.a << b | d.b >>> 32 - b)) : 0 !== b ? new a(d.a << b | d.b >>> 32 - b, d.b << b | d.a >>> 32 - b) : d;}function x(a, b) {return a >>> b | a << 32 - b;}function t(d, b) {var e = null,e = new a(d.a, d.b);return e = 32 >= b ? new a(e.a >>> b | e.b << 32 - b & 4294967295, e.b >>> b | e.a << 32 - b & 4294967295) : new a(e.b >>> b - 32 | e.a << 64 - b & 4294967295, e.a >>> b - 32 | e.b << 64 - b & 4294967295);}function V(d, b) {var e = null;return e = 32 >= b ? new a(d.a >>> b, d.b >>> b | d.a << 32 - b & 4294967295) : new a(0, d.a >>> b - 32);}function ca(a, b, e) {return a & b ^ ~a & e;}function da(d,
-  b, e) {return new a(d.a & b.a ^ ~d.a & e.a, d.b & b.b ^ ~d.b & e.b);}function W(a, b, e) {return a & b ^ a & e ^ b & e;}function ea(d, b, e) {return new a(d.a & b.a ^ d.a & e.a ^ b.a & e.a, d.b & b.b ^ d.b & e.b ^ b.b & e.b);}function fa(a) {return x(a, 2) ^ x(a, 13) ^ x(a, 22);}function ga(d) {var b = t(d, 28),e = t(d, 34);d = t(d, 39);return new a(b.a ^ e.a ^ d.a, b.b ^ e.b ^ d.b);}function ha(a) {return x(a, 6) ^ x(a, 11) ^ x(a, 25);}function ia(d) {var b = t(d, 14),e = t(d, 18);d = t(d, 41);return new a(b.a ^ e.a ^ d.a, b.b ^ e.b ^ d.b);}function ja(a) {return x(a, 7) ^ x(a, 18) ^ a >>> 3;}function ka(d) {var b = t(d,
-    1),e = t(d, 8);d = V(d, 7);return new a(b.a ^ e.a ^ d.a, b.b ^ e.b ^ d.b);}function la(a) {return x(a, 17) ^ x(a, 19) ^ a >>> 10;}function ma(d) {var b = t(d, 19),e = t(d, 61);d = V(d, 6);return new a(b.a ^ e.a ^ d.a, b.b ^ e.b ^ d.b);}function G(a, b) {var e = (a & 65535) + (b & 65535);return ((a >>> 16) + (b >>> 16) + (e >>> 16) & 65535) << 16 | e & 65535;}function na(a, b, e, h) {var c = (a & 65535) + (b & 65535) + (e & 65535) + (h & 65535);return ((a >>> 16) + (b >>> 16) + (e >>> 16) + (h >>> 16) + (c >>> 16) & 65535) << 16 | c & 65535;}function H(a, b, e, h, c) {var m = (a & 65535) + (b & 65535) + (e & 65535) + (h & 65535) + (c & 65535);
-    return ((a >>> 16) + (b >>> 16) + (e >>> 16) + (h >>> 16) + (c >>> 16) + (m >>> 16) & 65535) << 16 | m & 65535;}function oa(d, b) {var e, h, c;e = (d.b & 65535) + (b.b & 65535);h = (d.b >>> 16) + (b.b >>> 16) + (e >>> 16);c = (h & 65535) << 16 | e & 65535;e = (d.a & 65535) + (b.a & 65535) + (h >>> 16);h = (d.a >>> 16) + (b.a >>> 16) + (e >>> 16);return new a((h & 65535) << 16 | e & 65535, c);}function pa(d, b, e, h) {var c, m, g;c = (d.b & 65535) + (b.b & 65535) + (e.b & 65535) + (h.b & 65535);m = (d.b >>> 16) + (b.b >>> 16) + (e.b >>> 16) + (h.b >>> 16) + (c >>> 16);g = (m & 65535) << 16 | c & 65535;c = (d.a & 65535) + (b.a & 65535) + (e.a & 65535) + (h.a & 65535) + (
-    m >>> 16);m = (d.a >>> 16) + (b.a >>> 16) + (e.a >>> 16) + (h.a >>> 16) + (c >>> 16);return new a((m & 65535) << 16 | c & 65535, g);}function qa(d, b, e, h, c) {var m, g, l;m = (d.b & 65535) + (b.b & 65535) + (e.b & 65535) + (h.b & 65535) + (c.b & 65535);g = (d.b >>> 16) + (b.b >>> 16) + (e.b >>> 16) + (h.b >>> 16) + (c.b >>> 16) + (m >>> 16);l = (g & 65535) << 16 | m & 65535;m = (d.a & 65535) + (b.a & 65535) + (e.a & 65535) + (h.a & 65535) + (c.a & 65535) + (g >>> 16);g = (d.a >>> 16) + (b.a >>> 16) + (e.a >>> 16) + (h.a >>> 16) + (c.a >>> 16) + (m >>> 16);return new a((g & 65535) << 16 | m & 65535, l);}function B(d, b) {return new a(d.a ^ b.a, d.b ^
-    b.b);}function A(d) {var b = [],e;if ("SHA-1" === d) b = [1732584193, 4023233417, 2562383102, 271733878, 3285377520];else if (0 === d.lastIndexOf("SHA-", 0)) switch (b = [3238371032, 914150663, 812702999, 4144912697, 4290775857, 1750603025, 1694076839, 3204075428], e = [1779033703, 3144134277, 1013904242, 2773480762, 1359893119, 2600822924, 528734635, 1541459225], d) {case "SHA-224":break;case "SHA-256":b = e;break;case "SHA-384":b = [new a(3418070365, b[0]), new a(1654270250, b[1]), new a(2438529370, b[2]), new a(355462360, b[3]), new a(1731405415,
-        b[4]), new a(41048885895, b[5]), new a(3675008525, b[6]), new a(1203062813, b[7])];break;case "SHA-512":b = [new a(e[0], 4089235720), new a(e[1], 2227873595), new a(e[2], 4271175723), new a(e[3], 1595750129), new a(e[4], 2917565137), new a(e[5], 725511199), new a(e[6], 4215389547), new a(e[7], 327033209)];break;default:throw Error("Unknown SHA variant");} else if (0 === d.lastIndexOf("SHA3-", 0) || 0 === d.lastIndexOf("SHAKE", 0)) for (d = 0; 5 > d; d += 1) {b[d] = [new a(0, 0), new a(0, 0), new a(0, 0), new a(0, 0), new a(0, 0)];} else throw Error("No SHA variants supported");
-    return b;}function K(a, b) {var e = [],h,c,m,g,l,p,f;h = b[0];c = b[1];m = b[2];g = b[3];l = b[4];for (f = 0; 80 > f; f += 1) {e[f] = 16 > f ? a[f] : y(e[f - 3] ^ e[f - 8] ^ e[f - 14] ^ e[f - 16], 1), p = 20 > f ? H(y(h, 5), c & m ^ ~c & g, l, 1518500249, e[f]) : 40 > f ? H(y(h, 5), c ^ m ^ g, l, 1859775393, e[f]) : 60 > f ? H(y(h, 5), W(c, m, g), l, 2400959708, e[f]) : H(y(h, 5), c ^ m ^ g, l, 3395469782, e[f]), l = g, g = m, m = y(c, 30), c = h, h = p;}b[0] = G(h, b[0]);b[1] = G(c, b[1]);b[2] = G(m, b[2]);b[3] = G(g, b[3]);b[4] = G(l, b[4]);return b;}function ba(a, b, e, c) {var k;for (k = (b + 65 >>> 9 << 4) + 15; a.length <= k;) {a.push(0);}a[b >>> 5] |=
-    128 << 24 - b % 32;b += e;a[k] = b & 4294967295;a[k - 1] = b / 4294967296 | 0;b = a.length;for (k = 0; k < b; k += 16) {c = K(a.slice(k, k + 16), c);}return c;}function L(d, b, e) {var h,k,m,g,l,p,f,n,q,u,r,t,v,x,y,A,z,w,F,B,C,D,E = [],J;if ("SHA-224" === e || "SHA-256" === e) u = 64, t = 1, D = Number, v = G, x = na, y = H, A = ja, z = la, w = fa, F = ha, C = W, B = ca, J = c;else if ("SHA-384" === e || "SHA-512" === e) u = 80, t = 2, D = a, v = oa, x = pa, y = qa, A = ka, z = ma, w = ga, F = ia, C = ea, B = da, J = X;else throw Error("Unexpected error in SHA-2 implementation");e = b[0];h = b[1];k = b[2];m = b[3];g = b[4];l = b[5];p = b[6];f = b[7];
-    for (r = 0; r < u; r += 1) {16 > r ? (q = r * t, n = d.length <= q ? 0 : d[q], q = d.length <= q + 1 ? 0 : d[q + 1], E[r] = new D(n, q)) : E[r] = x(z(E[r - 2]), E[r - 7], A(E[r - 15]), E[r - 16]), n = y(f, F(g), B(g, l, p), J[r], E[r]), q = v(w(e), C(e, h, k)), f = p, p = l, l = g, g = v(m, n), m = k, k = h, h = e, e = v(n, q);}b[0] = v(e, b[0]);b[1] = v(h, b[1]);b[2] = v(k, b[2]);b[3] = v(m, b[3]);b[4] = v(g, b[4]);b[5] = v(l, b[5]);b[6] = v(p, b[6]);b[7] = v(f, b[7]);return b;}function D(d, b) {var e,c,k,m,g = [],l = [];if (null !== d) for (c = 0; c < d.length; c += 2) {b[(c >>> 1) % 5][(c >>> 1) / 5 | 0] = B(b[(c >>> 1) % 5][(c >>> 1) / 5 | 0], new a(d[c + 1], d[c]));}
-    for (e = 0; 24 > e; e += 1) {m = A("SHA3-");for (c = 0; 5 > c; c += 1) {k = b[c][0];var p = b[c][1],f = b[c][2],n = b[c][3],q = b[c][4];g[c] = new a(k.a ^ p.a ^ f.a ^ n.a ^ q.a, k.b ^ p.b ^ f.b ^ n.b ^ q.b);}for (c = 0; 5 > c; c += 1) {l[c] = B(g[(c + 4) % 5], U(g[(c + 1) % 5], 1));}for (c = 0; 5 > c; c += 1) {for (k = 0; 5 > k; k += 1) {b[c][k] = B(b[c][k], l[c]);}}for (c = 0; 5 > c; c += 1) {for (k = 0; 5 > k; k += 1) {m[k][(2 * c + 3 * k) % 5] = U(b[c][k], Y[c][k]);}}for (c = 0; 5 > c; c += 1) {for (k = 0; 5 > k; k += 1) {b[c][k] = B(m[c][k], new a(~m[(c + 1) % 5][k].a & m[(c + 2) % 5][k].a, ~m[(c + 1) % 5][k].b & m[(c + 2) % 5][k].b));}}b[0][0] = B(b[0][0], Z[e]);}return b;}var c,
-  X, Y, Z;c = [1116352408, 1899447441, 3049323471, 3921009573, 961987163, 1508970993, 2453635748, 2870763221, 3624381080, 310598401, 607225278, 1426881987, 1925078388, 2162078206, 2614888103, 3248222580, 3835390401, 4022224774, 264347078, 604807628, 770255983, 1249150122, 1555081692, 1996064986, 2554220882, 2821834349, 2952996808, 3210313671, 3336571891, 3584528711, 113926993, 338241895, 666307205, 773529912, 1294757372, 1396182291, 1695183700, 1986661051, 2177026350, 2456956037, 2730485921, 2820302411, 3259730800, 3345764771, 3516065817, 3600352804,
-  4094571909, 275423344, 430227734, 506948616, 659060556, 883997877, 958139571, 1322822218, 1537002063, 1747873779, 1955562222, 2024104815, 2227730452, 2361852424, 2428436474, 2756734187, 3204031479, 3329325298];X = [new a(c[0], 3609767458), new a(c[1], 602891725), new a(c[2], 3964484399), new a(c[3], 2173295548), new a(c[4], 4081628472), new a(c[5], 3053834265), new a(c[6], 2937671579), new a(c[7], 3664609560), new a(c[8], 2734883394), new a(c[9], 1164996542), new a(c[10], 1323610764), new a(c[11], 3590304994), new a(c[12], 4068182383), new a(c[13],
-  991336113), new a(c[14], 633803317), new a(c[15], 3479774868), new a(c[16], 2666613458), new a(c[17], 944711139), new a(c[18], 2341262773), new a(c[19], 2007800933), new a(c[20], 1495990901), new a(c[21], 1856431235), new a(c[22], 3175218132), new a(c[23], 2198950837), new a(c[24], 3999719339), new a(c[25], 766784016), new a(c[26], 2566594879), new a(c[27], 3203337956), new a(c[28], 1034457026), new a(c[29], 2466948901), new a(c[30], 3758326383), new a(c[31], 168717936), new a(c[32], 1188179964), new a(c[33], 1546045734), new a(c[34], 1522805485),
-  new a(c[35], 2643833823), new a(c[36], 2343527390), new a(c[37], 1014477480), new a(c[38], 1206759142), new a(c[39], 344077627), new a(c[40], 1290863460), new a(c[41], 3158454273), new a(c[42], 3505952657), new a(c[43], 106217008), new a(c[44], 3606008344), new a(c[45], 1432725776), new a(c[46], 1467031594), new a(c[47], 851169720), new a(c[48], 3100823752), new a(c[49], 1363258195), new a(c[50], 3750685593), new a(c[51], 3785050280), new a(c[52], 3318307427), new a(c[53], 3812723403), new a(c[54], 2003034995), new a(c[55], 3602036899),
-  new a(c[56], 1575990012), new a(c[57], 1125592928), new a(c[58], 2716904306), new a(c[59], 442776044), new a(c[60], 593698344), new a(c[61], 3733110249), new a(c[62], 2999351573), new a(c[63], 3815920427), new a(3391569614, 3928383900), new a(3515267271, 566280711), new a(3940187606, 3454069534), new a(4118630271, 4000239992), new a(116418474, 1914138554), new a(174292421, 2731055270), new a(289380356, 3203993006), new a(460393269, 320620315), new a(685471733, 587496836), new a(852142971, 1086792851), new a(1017036298, 365543100), new a(1126000580,
-  2618297676), new a(1288033470, 3409855158), new a(1501505948, 4234509866), new a(1607167915, 987167468), new a(1816402316, 1246189591)];Z = [new a(0, 1), new a(0, 32898), new a(2147483648, 32906), new a(2147483648, 2147516416), new a(0, 32907), new a(0, 2147483649), new a(2147483648, 2147516545), new a(2147483648, 32777), new a(0, 138), new a(0, 136), new a(0, 2147516425), new a(0, 2147483658), new a(0, 2147516555), new a(2147483648, 139), new a(2147483648, 32905), new a(2147483648, 32771), new a(2147483648, 32770), new a(2147483648, 128), new a(0,
-  32778), new a(2147483648, 2147483658), new a(2147483648, 2147516545), new a(2147483648, 32896), new a(0, 2147483649), new a(2147483648, 2147516424)];Y = [[0, 36, 3, 41, 18], [1, 44, 10, 45, 2], [62, 6, 43, 15, 61], [28, 55, 25, 21, 56], [27, 20, 39, 8, 14]]; true ? !(__WEBPACK_AMD_DEFINE_RESULT__ = (function () {return C;}).call(exports, __webpack_require__, exports, module),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)) : undefined;})(this);
-
-/***/ }),
-/* 30 */
-/*!***************************************************!*\
-  !*** D:/联合利众/动态验证/node_modules/jsotp/lib/hotp.js ***!
-  \***************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true });
-
-exports.HOTP = undefined;
-
-var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();
-
-var _get = function get(object, property, receiver) {if (object === null) object = Function.prototype;var desc = Object.getOwnPropertyDescriptor(object, property);if (desc === undefined) {var parent = Object.getPrototypeOf(object);if (parent === null) {return undefined;} else {return get(parent, property, receiver);}} else if ("value" in desc) {return desc.value;} else {var getter = desc.get;if (getter === undefined) {return undefined;}return getter.call(receiver);}};
-
-var _otp = __webpack_require__(/*! ./otp */ 25);
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
-
-function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}
-
-function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;} /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          *  @module   : HOTP module to generate and verify HOTP password
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          *  @author   : Gin (gin.lance.inside@hotmail.com)
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          */
-
-var HOTP = exports.HOTP = function (_OTP) {
-  _inherits(HOTP, _OTP);
-
-  function HOTP() {
-    _classCallCheck(this, HOTP);
-
-    return _possibleConstructorReturn(this, (HOTP.__proto__ || Object.getPrototypeOf(HOTP)).apply(this, arguments));
-  }
-
-  _createClass(HOTP, [{
-    key: 'at',
-
-    /* ＊
-                  * Generate the OTP with the given count
-                  *
-                  * @param {count}
-                  * @type {int}
-                  * @desc the OTP HMAC counter
-                  *
-                  * @return {OTP}
-                  *
-                  * @example
-                  * ```javascript
-                  * let hotp = jsotp.HOTP('BASE32_ENCODED_SECRET');
-                  * hotp.at(0); // => 432143
-                  * ```
-                  */
-    value: function at(count) {
-      var digit = _get(HOTP.prototype.__proto__ || Object.getPrototypeOf(HOTP.prototype), 'generate_otp', this).call(this, count);
-      return digit;
-    }
-
-    /* ＊
-         * Verifies the OTP passed in against the current counter.
-         *
-         * @param {otp}
-         * @type {String}
-         * @desc the OTP waiting for checking
-         *
-         * @param {counter}
-         * @type {int}
-         * @desc the OTP HMAC counter
-         *
-         * @return {Boolean}
-         *
-         * @example
-         * ```javascript
-         * let hotp = jsotp.HOTP('BASE32_ENCODED_SECRET');
-         * hotp.at(0); // => 432143
-         * hotp.verify(432143, 0); // => true
-         * hotp.verify(432143, 1); // => false
-         * ```
-         */ },
-
-  {
-    key: 'verify',
-    value: function verify(otp, counter) {
-      var otp_count = this.at(counter);
-
-      if (typeof otp === 'number') {
-        otp = otp.toString();
-      }
-
-      if (otp === otp_count) {
-        return true;
-      }
-      return false;
-    }
-
-    /* ＊
-         * Generate a url with HOTP instance.
-         *
-         * @param {issuer}
-         * @type {String}
-         * @desc maybe it is the Service name
-         *
-         * @return {String}
-         */ },
-
-  {
-    key: 'url_gen',
-    value: function url_gen() {
-      var issuer = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-
-      return _get(HOTP.prototype.__proto__ || Object.getPrototypeOf(HOTP.prototype), 'url_gen', this).call(this, issuer, 'hotp');
-    } }]);
-
-
-  return HOTP;
-}(_otp.OTP);
-
 /***/ })
-]]);
+
+}]);
 //# sourceMappingURL=../../.sourcemap/mp-weixin/common/vendor.js.map

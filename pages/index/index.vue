@@ -1,27 +1,30 @@
 <template>
 	<view>
-		<view style="height: var(--status-bar-height);"></view>
-		<view class="text-center" style="line-height: 90rpx;font-size: 48rpx;font-weight: bold;">
-			<image style="width: 60rpx;height: 60rpx;vertical-align: middle;margin-right: 20rpx;margin-bottom: 10rpx;"
-				src="../../static/logo2.png" mode=""></image>
-			<text style="padding-top: 20rpx;">联横利众数字云动态验证</text>
-		</view>
-		<view v-for="item in arr" :key="item.num">
-			<view class="solid-bottom text-xl padding">
-				<text class="text-black text-bold">联横利众（{{item.username}}）</text>
-			</view>
-			<view class="solid-bottom text-xxl padding">
-				<text class="text-blue">
-					{{item.num}}
-				</text>
-				<text class="text-red" style="float: right;">
-					{{30-width}}s
-				</text>
-			</view>
-			<view class="padding">
-				<view class="cu-progress round sm striped active">
-					<view class="bg-green" :style="[{ width:`${Math.floor((width/30)*100)}%`}]"></view>
-				</view>
+		<image class="top-bg" src="../../static/bg.png"></image>
+		<image @click="addUser" class="scan" src="../../static/scan.png"></image>
+		<view class="title">动态验证器</view>
+		<image class="logo" src="../../static/logo.png"></image>
+		<view class="list">
+			<view class="item" v-for="(item,index) in arr" :key="item.num">
+				<uni-swipe-action>
+					<!-- 基础用法 -->
+					<uni-swipe-action-item :right-options="options" @click="onClick(index)">
+						<view style="width: 100%;">
+							<view class="item-title">{{decodeURIComponent(item.username)}}</view>
+							<view class="text-xxl padding-top-sm padding-bottom-sm">
+								<text class="l-num">
+									{{item.num}}
+								</text>
+								<text class="r-num" style="float: right;">
+									{{30-width}}s
+								</text>
+							</view>
+							<view class="cu-progress round">
+								<view class="bg-jianbian" :style="[{ width:`${Math.floor(((30-width)/30)*100)}%`}]"></view>
+							</view>
+						</view>
+					</uni-swipe-action-item>
+				</uni-swipe-action>
 			</view>
 		</view>
 		<!-- <basics v-if="PageCur=='basics'"></basics>
@@ -53,61 +56,56 @@
 <script>
 	const jsotp = require('jsotp');
 	import qs from 'qs'
+	import uniSwipeAction from '../../components/uni-swipe-action/uni-swipe-action.vue'
+	import uniSwipeActionItem from '../../components/uni-swipe-action-item/uni-swipe-action-item.vue'
 	export default {
+		components: {
+			uniSwipeAction,
+			uniSwipeActionItem
+		},
 		data() {
 			return {
 				width: 30,
-				num: '',
-				username: '',
 				arr: [],
+				options: [{
+					text: '删除',
+					style: {
+						backgroundColor: 'rgba(245, 108, 108, 1)',
+						color: 'rgba(255, 255, 255, 1)',
+						borderRadius:'20rpx'
+					}
+				}],
 			}
 		},
 		onLoad(opt) {
-			// wx.login({
-			//   success: function (res) {
-			// 	var code = res.code;//发送给服务器的code
-			// 	console.log(code)
-			// 	uni.request({
-			// 		url:'',
-			// 	})
-			//   },
-			//   fail: function (error) {
-			// 	console.log('login failed ' + error);
-			//   }
-			// })  
+			console.log(opt)
+			let arr = [];
 			let that = this;
 			if (opt.q) {
-				let arr = [];
-				uni.getStorage({
-					key: 'arr',
-					success: function(res) {
-						console.log(res.data);
-						arr = JSON.parse(res.data);
-					}
-				});
+				// 对url进行解码
 				let url = decodeURIComponent(opt.q)
 				let paramstr = url.split("?")[2];
 				let getUser = url.split("?")[1];
 				let username = getUser.split(':')[2];
-				console.log(getUser.split(':'))
-				// let paramstr = this.parseUrl(url);
-				console.log(paramstr)
-				console.log(decodeURIComponent(username))
-				console.log(decodeURI(username))
 				let params = this.parseUrl(paramstr);
-				console.log(params)
-				let arr2 = arr.filter(i => i.username == params.username);
-				console.log(arr)
-				console.log(arr2)
-				that.width = params.period;
 				params.username = username;
-				if (arr2.length == 0) {
-					arr.push(params)
-					uni.setStorage({
-						key: 'arr',
-						data: JSON.stringify(arr)
-					});
-				}
+				// 获取缓存里的数组
+				uni.getStorage({
+					key: 'arr',
+					success: function(res) {
+						arr = JSON.parse(res.data);
+					}
+				});
+				let newArr = arr.concat([params])
+				// 去重
+				let arr2 = this.quchong(newArr)
+				uni.setStorage({
+					key: 'arr',
+					data: JSON.stringify(arr2),
+					success:function(res){
+						console.log('结果',res)
+					}
+				});
 				//  wx.login({
 				//   success: function (res) {
 				// 	var code = res.code;//发送给服务器的code
@@ -121,20 +119,10 @@
 				//   }
 				// })    
 			}
-			let arr = [{
-				secret: 'fe3i5ytwyxa77ijbyxqqwg46kfd2go5e',
-				issuer: 'Admin@gmail.com',
-				username: 'Admin@gmail.com',
-				period: 30
-			}]
-			uni.setStorage({
-				key: 'arr',
-				data: JSON.stringify(arr)
-			});
 			uni.getStorage({
 				key: 'arr',
 				success: function(res) {
-					console.log(res.data);
+					console.log('结果',res.data)
 					that.arr = JSON.parse(res.data);
 					let array = [];
 					if (that.arr.length > 0) {
@@ -148,6 +136,7 @@
 					}
 				}
 			});
+			// 定时器倒计时，倒计时结束刷新动态验证码
 			setInterval(() => {
 				if (that.width < 30) {
 					that.width += 1;
@@ -160,8 +149,73 @@
 			}, 1000)
 		},
 		methods: {
+			// 数组去重
+			quchong(arr){
+				console.log(arr)
+				let map = new Map();
+				for (let item of arr) {
+				    if (!map.has(item.username)) {
+				        map.set(item.username, item);
+				    };
+				};
+				console.log([...map.values()])
+				return [...map.values()]
+			},
+			// 扫一扫添加
+			addUser(){
+				let that = this;
+				uni.scanCode({
+				    onlyFromCamera: true,
+				    success: function (res) {
+				        console.log('条码类型：' + res.scanType);
+				        console.log('条码内容：' + res.result);
+						let paramstr = res.result.split("?")[2];
+						let getUser = res.result.split("?")[1];
+						let username = getUser.split(':')[2];
+						let params = that.parseUrl(paramstr);
+						params.username = username;
+						let newArr = that.arr.concat([params])
+						// 去重
+						that.arr = that.quchong(newArr)
+						that.arr.forEach((item, index) => {
+							that.$set(that.arr[index], `num`, jsotp.TOTP(item.secret).now())
+						})
+						uni.setStorage({
+							key: 'arr',
+							data: JSON.stringify(that.arr),
+							success:function(res){
+								console.log('结果',res)
+							}
+						});
+				    }
+				});
+			},
+			// 右滑删除
+			onClick(e) {
+				// console.log('点击了' + (e.position === 'left' ? '左侧' : '右侧') + e.content.text + '按钮')
+				console.log(e)
+				let that = this;
+				uni.showModal({
+					title: '提示',
+					content: '确定删除当前账号动态验证码 ？',
+					success: function(res) {
+						// 确认删除
+						if (res.confirm) {
+							that.arr.splice(e,1)
+							uni.setStorage({
+								key: 'arr',
+								data: JSON.stringify(that.arr),
+								success:function(res){
+									console.log('结果',res)
+								}
+							});
+						}
+					}
+				});
+
+			},
+			// 解析路径
 			parseUrl(query) {
-				console.log("出发")
 				// if (url.indexOf("?") === -1) {
 				// 	return {};
 				// }
@@ -172,7 +226,6 @@
 				queryArr.forEach(function(item) {
 					var key = item.split("=")[0];
 					var value = item.split("=")[1];
-					console.log('值'+decodeURI(value))
 					obj[key] = decodeURIComponent(value);
 				});
 				return obj;
@@ -182,5 +235,69 @@
 </script>
 
 <style>
-
+.top-bg{
+	width: 100%;
+	height: 540rpx;
+	position: relative;
+	z-index: 1;
+}
+.scan{
+	width: 48rpx;
+	height: 48rpx;
+	position: absolute;
+	top: calc(24rpx + var(--status-bar-height));
+	left: 40rpx;
+	z-index: 2;
+}
+.title{
+	color: #FFFFFF;
+	font-size: 36rpx;
+	font-weight: 500;
+	transform: translateX(-50%);
+	position: absolute;
+	top: calc(20rpx + var(--status-bar-height));
+	left: 50%;
+	z-index: 2;
+}
+.logo{
+	width: 390rpx;
+	height: 110rpx;
+	transform: translateX(-50%);
+	position: absolute;
+	top: calc(180rpx + var(--status-bar-height));
+	left: 50%;
+	z-index: 2;
+}
+.list{
+	width: 686rpx;
+	margin: 0 auto;
+	position: absolute;
+	top: calc(360rpx + var(--status-bar-height));
+	left: 32rpx;
+	z-index: 2;
+}
+.item{
+	padding: 30rpx 40rpx;
+	margin-bottom: 20rpx;
+	background-color: #FFFFFF;
+	border-radius: 16rpx;
+	box-shadow: 0 6rpx 12rpx 2rpx rgba(0, 0, 0, 0.16);
+}
+.bg-green{
+	background: linear-gradient(270deg, rgba(61, 206, 235, 1) 0%, rgba(76, 89, 255, 1) 100%);
+}
+.item-title{
+	font-size: 32rpx;
+	color: rgba(0, 30, 77, 1);
+	font-weight: bold;
+}
+.l-num{
+	color: rgba(1, 129, 254, 1);
+}
+.r-num{
+	color: rgba(103, 194, 58, 1);
+}
+.bg-jianbian{
+	background: linear-gradient(270deg, rgba(61, 206, 235, 1) 0%, rgba(76, 89, 255, 1) 100%);
+}
 </style>

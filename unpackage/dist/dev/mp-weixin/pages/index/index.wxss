@@ -1,0 +1,69 @@
+
+.top-bg{
+	width: 100%;
+	height: 540rpx;
+	position: relative;
+	z-index: 1;
+}
+.scan{
+	width: 48rpx;
+	height: 48rpx;
+	position: absolute;
+	top: calc(24rpx + 25px);
+	left: 40rpx;
+	z-index: 2;
+}
+.title{
+	color: #FFFFFF;
+	font-size: 36rpx;
+	font-weight: 500;
+	-webkit-transform: translateX(-50%);
+	        transform: translateX(-50%);
+	position: absolute;
+	top: calc(20rpx + 25px);
+	left: 50%;
+	z-index: 2;
+}
+.logo{
+	width: 390rpx;
+	height: 110rpx;
+	-webkit-transform: translateX(-50%);
+	        transform: translateX(-50%);
+	position: absolute;
+	top: calc(180rpx + 25px);
+	left: 50%;
+	z-index: 2;
+}
+.list{
+	width: 686rpx;
+	margin: 0 auto;
+	position: absolute;
+	top: calc(360rpx + 25px);
+	left: 32rpx;
+	z-index: 2;
+}
+.item{
+	padding: 30rpx 40rpx;
+	margin-bottom: 20rpx;
+	background-color: #FFFFFF;
+	border-radius: 16rpx;
+	box-shadow: 0 6rpx 12rpx 2rpx rgba(0, 0, 0, 0.16);
+}
+.bg-green{
+	background: linear-gradient(270deg, rgba(61, 206, 235, 1) 0%, rgba(76, 89, 255, 1) 100%);
+}
+.item-title{
+	font-size: 32rpx;
+	color: rgba(0, 30, 77, 1);
+	font-weight: bold;
+}
+.l-num{
+	color: rgba(1, 129, 254, 1);
+}
+.r-num{
+	color: rgba(103, 194, 58, 1);
+}
+.bg-jianbian{
+	background: linear-gradient(270deg, rgba(61, 206, 235, 1) 0%, rgba(76, 89, 255, 1) 100%);
+}
+
